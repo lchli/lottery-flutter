@@ -13,6 +13,10 @@ class ChooseDanMaPage extends StatelessWidget {
   static const int ding_er_ma = 5;
   static const int sha_er_ma = 6;
 
+  static const int duanzu_1 = 7;
+  static const int duanzu_2 = 8;
+  static const int duanzu_3 = 9;
+
   ChooseDanMaPage(this._requestCode);
 
   @override
@@ -81,6 +85,12 @@ class ChooseDanMaPage extends StatelessWidget {
         return _filterVM.dingErMaChecked.contains(_filterVM.ermas[index]);
         case sha_er_ma:
         return _filterVM.shaErMaChecked.contains(_filterVM.ermas[index]);
+        case duanzu_1:
+        return _filterVM.duanzu1Checked.contains(_filterVM.danmas[index]);
+        case duanzu_2:
+        return _filterVM.duanzu2Checked.contains(_filterVM.danmas[index]);
+      case duanzu_3:
+        return _filterVM.duanzu3Checked.contains(_filterVM.danmas[index]);
     }
 
     return false;
@@ -130,6 +140,27 @@ class ChooseDanMaPage extends StatelessWidget {
           _filterVM.removeFromShaErMaChecked(index);
         }
         break;
+      case duanzu_1:
+        if (v) {
+          _filterVM.addToDuanzu1Checked(index);
+        } else {
+          _filterVM.removeFromDuanzu1Checked(index);
+        }
+        break;
+      case duanzu_2:
+        if (v) {
+          _filterVM.addToDuanzu2Checked(index);
+        } else {
+          _filterVM.removeFromDuanzu2Checked(index);
+        }
+        break;
+      case duanzu_3:
+        if (v) {
+          _filterVM.addToDuanzu3Checked(index);
+        } else {
+          _filterVM.removeFromDuanzu3Checked(index);
+        }
+        break;
     }
   }
 
@@ -151,7 +182,16 @@ class ChooseDanMaPage extends StatelessWidget {
         _filterVM.clearDingErMaChecked();
         break;
       case sha_er_ma:
-        _filterVM.clearShaErMaChecked();
+      _filterVM.clearShaErMaChecked();
+      break;
+      case duanzu_1:
+        _filterVM.clearDuanzu1Checked();
+        break;
+      case duanzu_2:
+        _filterVM.clearDuanzu2Checked();
+        break;
+      case duanzu_3:
+        _filterVM.clearDuanzu3Checked();
         break;
     }
   }

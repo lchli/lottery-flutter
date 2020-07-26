@@ -19,6 +19,10 @@ class FilterPage extends StatelessWidget with WidgetsBindingObserver {
       Provider.of<FilterVM>(context, listen: false).clearRongCuoChecked();
       Provider.of<FilterVM>(context, listen: false).resetFilteredSource();
       Provider.of<FilterVM>(context, listen: false).clearShaErMaChecked();
+
+      Provider.of<FilterVM>(context, listen: false).clearDuanzu1Checked();
+      Provider.of<FilterVM>(context, listen: false).clearDuanzu2Checked();
+      Provider.of<FilterVM>(context, listen: false).clearDuanzu3Checked();
     }
 
     return Scaffold(
@@ -72,6 +76,20 @@ class FilterPage extends StatelessWidget with WidgetsBindingObserver {
               _paddingRight(),
               _addContainer(Text(_filterVM.getShaErMaCheckedString()), () {
                 _filterVM.showChooseDanMa(context, ChooseDanMaPage.sha_er_ma);
+              })
+            ]),
+            Divider(),
+            new Row(children: <Widget>[
+              Text("断    组", style: _getTipsTitleTextStyle()),
+              _paddingRight(),
+              _addContainer(Text(_filterVM.getDuanzu1CheckedString()), () {
+                _filterVM.showChooseDanMa(context, ChooseDanMaPage.duanzu_1);
+              }),
+              _addContainer(Text(_filterVM.getDuanzu2CheckedString()), () {
+                _filterVM.showChooseDanMa(context, ChooseDanMaPage.duanzu_2);
+              }),
+              _addContainer(Text(_filterVM.getDuanzu3CheckedString()), () {
+                _filterVM.showChooseDanMa(context, ChooseDanMaPage.duanzu_3);
               })
             ]),
             Divider(),
