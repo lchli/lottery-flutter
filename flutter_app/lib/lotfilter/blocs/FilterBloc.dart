@@ -146,7 +146,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
           state.duanzu1Checked, state.duanzu2Checked, state.duanzu3Checked));
     }
 
-    print(state.rongcuoChecked.toString());
+    print("rongcuo:"+state.rongcuoChecked.toString());
 
     Result<List<String>> result;
     if (state.rongcuoChecked.isEmpty) {
@@ -177,13 +177,32 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     var newState = state.clone();
     newState.controller.text = _getFilterResultString(data);
 
+    print("filter res:"+data.toString());
+
     return newState;
   }
 
   String _getFilterResultString(List<String> filteredSource) {
     if (filteredSource.isNotEmpty) {
-      return filteredSource.toString() + "\n(${filteredSource.length}注)";
+     String  ret= filteredSource.toString() + "\n(${filteredSource.length}注)\n\n";
+     for(int i=0;i<10;i++){
+       ret=ret+"$i:${_count(filteredSource,"$i")}\n";
+     }
+
+     return ret;
+
     }
     return "点击开始缩水";
+  }
+
+  int _count(List<String> filteredSource,String num){
+   int sum=0;
+   filteredSource.forEach((element) {
+     if(element.contains(num)){
+       sum+=1;
+     }
+   });
+
+   return sum;
   }
 }
