@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/lotfilter/vm/FilterVM.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterapp/lotfilter/blocs/ChooseHaoMaBloc.dart';
+import 'package:flutterapp/lotfilter/blocs/ChooseHaoMaEvent.dart';
+import 'package:flutterapp/lotfilter/blocs/ChooseHaoMaState.dart';
 
-class ChooseDanMaPage extends StatelessWidget {
-  FilterVM _filterVM;
-  int _requestCode;
+class ChooseDanMaPage extends StatefulWidget {
   static const int dan_ma = 1;
   static const int sha_ma = 2;
   static const int hewei = 3;
@@ -17,182 +17,105 @@ class ChooseDanMaPage extends StatelessWidget {
   static const int duanzu_2 = 8;
   static const int duanzu_3 = 9;
 
-  ChooseDanMaPage(this._requestCode);
+  final int _requestCode;
+  final List<String> _source;
+  final List<String> _checked;
+
+  const ChooseDanMaPage(this._requestCode, this._source, this._checked,
+      {Key key})
+      : super(key: key);
+
+  static Route<List<String>> route(
+      int requestCode, List<String> source, final List<String> checked) {
+    return MaterialPageRoute<List<String>>(
+        builder: (_) => ChooseDanMaPage(requestCode, source, checked));
+  }
+
+  @override
+  State createState() {
+    return _ChooseDanMaPageSt(_requestCode, _source, _checked);
+  }
+}
+
+class _ChooseDanMaPageSt extends State<ChooseDanMaPage> {
+  int _requestCode;
+
+  final List<String> _source;
+  final List<String> _checked;
+  final _bloc = ChooseHaoMaBloc();
+
+  _ChooseDanMaPageSt(this._requestCode, this._source, this._checked);
+
+  @protected
+  @mustCallSuper
+  void initState() {
+    super.initState();
+    _bloc.add(LoadSourceEvent(_source, _checked, _requestCode));
+  }
+
+  @override
+  void dispose() {
+    print("bloc dispose");
+    _bloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_filterVM == null) {
-      _filterVM = Provider.of<FilterVM>(context, listen: true);
-    }
-
-    return Scaffold(
-        body: _body(context),
-        appBar: AppBar(
-          title: Text("请选择"),
-          actions: <Widget>[
-            GestureDetector(
-              child: Center(child: Text("清空选中")),
-              onTap: () {
-                _clearChecked();
-              },
-            ),
-          ],
-        ));
+    return BlocBuilder<ChooseHaoMaBloc, ChooseHaoMaState>(
+        cubit: _bloc,
+        builder: (context, state) {
+          return Scaffold(
+              body: _body(context, state),
+              appBar: AppBar(
+                title: Text("请选择"),
+                actions: <Widget>[
+                  GestureDetector(
+                    child: Center(child: Text("清空选中")),
+                    onTap: () {
+                      _bloc.add(CheckedChangedEvent([], _requestCode));
+                      //_clearChecked();
+                    },
+                  ),
+                  GestureDetector(
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 20, right: 10),
+                        child: Center(child: Text("确定"))),
+                    onTap: () {
+                      Navigator.of(context).pop(state.checked);
+                      //_clearChecked();
+                    },
+                  ),
+                ],
+              ));
+        });
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, ChooseHaoMaState state) {
     return GridView.count(
       crossAxisCount: 5,
-      children: List.generate(_gridCount(), (index) {
+      children: List.generate(state.source.length, (index) {
         return Row(
           children: <Widget>[
             Checkbox(
-              value: _isChecked(index),
-              onChanged: (v) => onChangedImpl(v, index),
+              value: state.checked.contains(state.source[index]),
+              onChanged: (v) => onChangedImpl(v, state.source[index], state),
             ),
-            Text(_text(index))
+            Text(state.source[index])
           ],
         );
       }),
     );
   }
 
-  int _gridCount(){
-    if(_requestCode==ding_er_ma||_requestCode==sha_er_ma){
-      return _filterVM.ermas.length;
-    }
-    return _filterVM.danmas.length;
-  }
-
-  String _text(int index){
-    if(_requestCode==ding_er_ma||_requestCode==sha_er_ma){
-      return _filterVM.ermas[index];
-    }
-    return _filterVM.danmas[index];
-  }
-
-  bool _isChecked(int index) {
-    switch (_requestCode) {
-      case dan_ma:
-        return _filterVM.danmasChecked.contains(_filterVM.danmas[index]);
-      case sha_ma:
-        return _filterVM.shamaChecked.contains(_filterVM.danmas[index]);
-      case hewei:
-        return _filterVM.heweiChecked.contains(_filterVM.danmas[index]);
-      case kuadu:
-        return _filterVM.kuaduChecked.contains(_filterVM.danmas[index]);
-        case ding_er_ma:
-        return _filterVM.dingErMaChecked.contains(_filterVM.ermas[index]);
-        case sha_er_ma:
-        return _filterVM.shaErMaChecked.contains(_filterVM.ermas[index]);
-        case duanzu_1:
-        return _filterVM.duanzu1Checked.contains(_filterVM.danmas[index]);
-        case duanzu_2:
-        return _filterVM.duanzu2Checked.contains(_filterVM.danmas[index]);
-      case duanzu_3:
-        return _filterVM.duanzu3Checked.contains(_filterVM.danmas[index]);
+  onChangedImpl(bool v, String index, ChooseHaoMaState state) {
+    List<String> prechecked = List.of(state.checked);
+    if (v) {
+      prechecked.add(index);
+    } else {
+      prechecked.remove(index);
     }
 
-    return false;
-  }
-
-  onChangedImpl(bool v, int index) {
-    switch (_requestCode) {
-      case dan_ma:
-        if (v) {
-          _filterVM.addToDanMaChecked(index);
-        } else {
-          _filterVM.removeFromDanMaChecked(index);
-        }
-        break;
-      case sha_ma:
-        if (v) {
-          _filterVM.addToShaMaChecked(index);
-        } else {
-          _filterVM.removeFromShaMaChecked(index);
-        }
-        break;
-      case hewei:
-        if (v) {
-          _filterVM.addToHeweiChecked(index);
-        } else {
-          _filterVM.removeFromHeweiChecked(index);
-        }
-        break;
-      case kuadu:
-        if (v) {
-          _filterVM.addToKuaduChecked(index);
-        } else {
-          _filterVM.removeFromKuaduChecked(index);
-        }
-        break;
-      case ding_er_ma:
-        if (v) {
-          _filterVM.addToDingErMaChecked(index);
-        } else {
-          _filterVM.removeFromDingErMaChecked(index);
-        }
-        break;
-      case sha_er_ma:
-        if (v) {
-          _filterVM.addToShaErMaChecked(index);
-        } else {
-          _filterVM.removeFromShaErMaChecked(index);
-        }
-        break;
-      case duanzu_1:
-        if (v) {
-          _filterVM.addToDuanzu1Checked(index);
-        } else {
-          _filterVM.removeFromDuanzu1Checked(index);
-        }
-        break;
-      case duanzu_2:
-        if (v) {
-          _filterVM.addToDuanzu2Checked(index);
-        } else {
-          _filterVM.removeFromDuanzu2Checked(index);
-        }
-        break;
-      case duanzu_3:
-        if (v) {
-          _filterVM.addToDuanzu3Checked(index);
-        } else {
-          _filterVM.removeFromDuanzu3Checked(index);
-        }
-        break;
-    }
-  }
-
-  void _clearChecked() {
-    switch (_requestCode) {
-      case dan_ma:
-        _filterVM.clearDanMaChecked();
-        break;
-      case sha_ma:
-        _filterVM.clearShaMaChecked();
-        break;
-      case hewei:
-        _filterVM.clearHeweiChecked();
-        break;
-      case kuadu:
-        _filterVM.clearKuaduChecked();
-        break;
-      case ding_er_ma:
-        _filterVM.clearDingErMaChecked();
-        break;
-      case sha_er_ma:
-      _filterVM.clearShaErMaChecked();
-      break;
-      case duanzu_1:
-        _filterVM.clearDuanzu1Checked();
-        break;
-      case duanzu_2:
-        _filterVM.clearDuanzu2Checked();
-        break;
-      case duanzu_3:
-        _filterVM.clearDuanzu3Checked();
-        break;
-    }
+    _bloc.add(CheckedChangedEvent(prechecked, _requestCode));
   }
 }

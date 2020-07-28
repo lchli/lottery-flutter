@@ -3,14 +3,10 @@ import 'package:flutterapp/client/ResultDto.dart';
 import 'package:flutterapp/lotfilter/ui/FilterPage.dart';
 import 'package:flutterapp/user/UserModelVM.dart';
 import 'package:flutterapp/user/domain/User.dart';
-import 'package:provider/provider.dart';
-import '../Pref.dart';
-import 'register.dart';
-import 'package:dio/dio.dart';
-import 'dart:convert';
-import '../MainPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+
+import '../MainPage.dart';
 
 class Login extends StatefulWidget {
   @override

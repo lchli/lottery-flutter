@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/lotfilter/app/FilterAppServiceImpl.dart';
 import 'package:flutterapp/lotfilter/client/FilterAppService.dart';
 import 'package:flutterapp/lotfilter/ui/FilterPage.dart';
-import 'package:flutterapp/lotfilter/vm/FilterVM.dart';
-import 'package:flutterapp/post/PostModel.dart';
 import 'package:flutterapp/user/UserModelVM.dart';
 import 'package:flutterapp/user/app/UserAppServiceImpl.dart';
 import 'package:flutterapp/user/domain/User.dart';
@@ -21,33 +19,21 @@ import 'client/ResultDto.dart';
 import 'client/UserAppService.dart';
 import 'user/login.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider( providers: [
-      // In this sample app, CatalogModel never changes, so a simple Provider
-      // is sufficient.
-      ChangeNotifierProvider(create: (context) => UserModelVM()),
-      ChangeNotifierProvider(create: (context) => PostModel()),
-      ChangeNotifierProvider(create: (context) => FilterVM()),
-    ],child:new MaterialApp(
-      title: 'Startup Name Generator',
-      home: new SplashPage(),
-    ));
+    return MaterialApp(home:FilterPage());
   }
 
-
-  static UserAppService provideUserAppService(){
+  static UserAppService provideUserAppService() {
     return UserAppServiceImpl(UserRepoImpl());
   }
 
-  static FilterAppService provideFilterAppService(){
+  static FilterAppService provideFilterAppService() {
     return FilterAppServiceImpl();
   }
-
-
 }
 
 class SplashPage extends StatefulWidget {
@@ -56,29 +42,23 @@ class SplashPage extends StatefulWidget {
 }
 
 class SplashPageState extends State<SplashPage> {
-
   void initState() {
     super.initState();
     _checkUserSession();
   }
 
   _checkUserSession() async {
-    var userModel = Provider.of<UserModelVM>(context,listen: false);
-    Result<User> res= await userModel.getUserSession();
-    if(res.hasError()||res.data==null){
-      Navigator.of(context).pushAndRemoveUntil(
-          new MaterialPageRoute(
-            builder: (context) {
-              return new Login(
-              );
-            },
-          ),
-              (Route<dynamic> route) => false
-      );
-    }else{
+    var userModel = Provider.of<UserModelVM>(context, listen: false);//todo
+    Result<User> res = await userModel.getUserSession();
+    if (res.hasError() || res.data == null) {
+      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(
+        builder: (context) {
+          return new Login();
+        },
+      ), (Route<dynamic> route) => false);
+    } else {
       _gotoMain();
     }
-
   }
 
   @override
@@ -87,18 +67,10 @@ class SplashPageState extends State<SplashPage> {
   }
 
   void _gotoMain() {
-    Navigator.of(context).pushAndRemoveUntil(
-        new MaterialPageRoute(
-          builder: (context) {
-            return new MainPage(
-            );
-          },
-        ),
-            (Route<dynamic> route) => false
-    );
+    Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(
+      builder: (context) {
+        return new MainPage();
+      },
+    ), (Route<dynamic> route) => false);
   }
-
 }
-
-
-
