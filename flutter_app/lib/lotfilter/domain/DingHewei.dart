@@ -2,7 +2,7 @@ import 'DingDanMa.dart';
 import 'FilterCondition.dart';
 
 class DingHewei extends DingDanMa {
-  DingHewei(String mdanMa) : super(mdanMa);
+  DingHewei( List<String> mdanMa) : super(mdanMa);
 
   bool isInclude(String item, List<String> dmList) {
     if (dmList.contains(getItemHeWei(item))) {
@@ -14,7 +14,7 @@ class DingHewei extends DingDanMa {
 
   @override
   FilterCondition reverseCondition() {
-    return  _DingHeweiReverse(mdanMa);
+    return  DingHeweiReverse(mdanMa);
   }
 
   String getItemHeWei(String item) {
@@ -28,11 +28,16 @@ class DingHewei extends DingDanMa {
   }
 }
 
-class _DingHeweiReverse extends DingHewei{
-  _DingHeweiReverse(String mdanMa) : super(mdanMa);
+class DingHeweiReverse extends DingHewei{
+  DingHeweiReverse(List<String> mdanMa) : super(mdanMa);
 
   @override
   bool isInclude(String item, List<String> dmList) {
     return !super.isInclude(item, dmList);
+  }
+
+  @override
+  FilterCondition reverseCondition() {
+    return DingHewei(mdanMa);
   }
 }

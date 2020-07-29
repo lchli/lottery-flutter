@@ -5,6 +5,7 @@ import 'package:flutterapp/lotfilter/blocs/FilterBloc.dart';
 import 'package:flutterapp/lotfilter/blocs/FilterEvent.dart';
 import 'package:flutterapp/lotfilter/blocs/FilterState.dart';
 import 'package:flutterapp/lotfilter/blocs/DanMaSource.dart';
+import 'package:flutterapp/lotfilter/ui/DanMaPredicate.dart';
 
 import 'ChooseDanMaPage.dart';
 
@@ -210,6 +211,15 @@ class _FilterPageState extends State<FilterPage> {
                       //_filterVM.startFilter();
                     },
                     child: new Text('开始缩水'),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<void>(
+                          builder: (_) => DanMaPredicate()));
+                    },
+                    child: new Text('胆码预测'),
                   ),
                   Expanded(
                       flex: 5,

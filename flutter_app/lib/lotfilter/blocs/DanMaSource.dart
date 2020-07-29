@@ -1,6 +1,8 @@
 import 'dart:math';
 
 class DanMaSource {
+  static List<List<String>> x012=[["1","4","7"],["2","5","8"],["0","3","6","9"]];
+
   static List<String> _makeDanXuan() {
     List<String> list = [];
 

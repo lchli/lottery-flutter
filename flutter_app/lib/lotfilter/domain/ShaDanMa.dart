@@ -2,7 +2,7 @@ import 'DingDanMa.dart';
 import 'FilterCondition.dart';
 
 class ShaDanMa extends DingDanMa {
-  ShaDanMa(String danMa) : super(danMa);
+  ShaDanMa(List<String> danMa) : super(danMa);
 
   @override
   FilterCondition reverseCondition() {

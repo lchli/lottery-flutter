@@ -65,4 +65,9 @@ class _DuanzuReverse extends Duanzu {
   bool isInclude(String item, List<String> condition) {
     return !super.isInclude(item, condition);
   }
+
+  @override
+  FilterCondition reverseCondition() {
+    return Duanzu(condition1,condition2,condition3);
+  }
 }

@@ -27,4 +27,9 @@ class _Zu6Reverse extends Zu6 {
   bool isInclude(String element) {
     return !super.isInclude(element);
   }
+
+  @override
+  FilterCondition reverseCondition() {
+    return Zu6();
+  }
 }

@@ -62,7 +62,7 @@ class _ChooseDanMaPageSt extends State<ChooseDanMaPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChooseHaoMaBloc, ChooseHaoMaState>(
+    return WillPopScope(onWillPop: _onBackPressed,child:BlocBuilder<ChooseHaoMaBloc, ChooseHaoMaState>(
         cubit: _bloc,
         builder: (context, state) {
           return Scaffold(
@@ -71,24 +71,17 @@ class _ChooseDanMaPageSt extends State<ChooseDanMaPage> {
                 title: Text("请选择"),
                 actions: <Widget>[
                   GestureDetector(
-                    child: Center(child: Text("清空选中")),
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 20, right: 10),
+                        child: Center(child: Text("清空"))),
                     onTap: () {
                       _bloc.add(CheckedChangedEvent([], _requestCode));
                       //_clearChecked();
                     },
                   ),
-                  GestureDetector(
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 20, right: 10),
-                        child: Center(child: Text("确定"))),
-                    onTap: () {
-                      Navigator.of(context).pop(state.checked);
-                      //_clearChecked();
-                    },
-                  ),
                 ],
               ));
-        });
+        }));
   }
 
   Widget _body(BuildContext context, ChooseHaoMaState state) {
@@ -117,5 +110,10 @@ class _ChooseDanMaPageSt extends State<ChooseDanMaPage> {
     }
 
     _bloc.add(CheckedChangedEvent(prechecked, _requestCode));
+  }
+
+  Future<bool> _onBackPressed() async{
+    Navigator.of(context).pop(_bloc.state.checked);
+    return true;
   }
 }

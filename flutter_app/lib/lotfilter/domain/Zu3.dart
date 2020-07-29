@@ -32,4 +32,9 @@ class _ZuSanReverse extends Zu3 {
   bool isInclude(String element) {
     return !super.isInclude(element);
   }
+
+  @override
+  FilterCondition reverseCondition() {
+    return Zu3();
+  }
 }

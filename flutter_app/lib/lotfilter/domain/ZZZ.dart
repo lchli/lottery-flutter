@@ -25,4 +25,9 @@ class _ZZZReverse extends ZZZ {
   bool isInclude(String element) {
     return !super.isInclude(element);
   }
+
+  @override
+  FilterCondition reverseCondition() {
+    return ZZZ();
+  }
 }

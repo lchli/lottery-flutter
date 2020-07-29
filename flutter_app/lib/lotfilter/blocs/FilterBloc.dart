@@ -107,28 +107,21 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
   Future<FilterState> _startFilter() async {
     List<FilterCondition> conditons = [];
-    String dan = _formatMa(state.danmasChecked);
-    print(dan);
-    if (dan != null && dan.isNotEmpty) {
-      conditons.add(DingDanMa(dan));
+    if (state.danmasChecked != null && state.danmasChecked.isNotEmpty) {
+      conditons.add(DingDanMa(state.danmasChecked));
     }
 
-    String sha = _formatMa(state.shamasChecked);
-    print(sha);
-    if (sha != null && sha.isNotEmpty) {
-      conditons.add(ShaDanMa(sha));
+
+    if (state.shamasChecked != null && state.shamasChecked.isNotEmpty) {
+      conditons.add(ShaDanMa(state.shamasChecked));
     }
 
-    String hewei = _formatMa(state.heweiChecked);
-    print(hewei);
-    if (hewei != null && hewei.isNotEmpty) {
-      conditons.add(DingHewei(hewei));
+    if (state.heweiChecked != null && state.heweiChecked.isNotEmpty) {
+      conditons.add(DingHewei(state.heweiChecked));
     }
 
-    String kuadu = _formatMa(state.kuaduChecked);
-    print(kuadu);
-    if (kuadu != null && kuadu.isNotEmpty) {
-      conditons.add(DingKuadu(kuadu));
+    if (state.kuaduChecked != null && state.kuaduChecked.isNotEmpty) {
+      conditons.add(DingKuadu(state.kuaduChecked));
     }
 
     if (state.dingErMaChecked != null && state.dingErMaChecked.isNotEmpty) {
