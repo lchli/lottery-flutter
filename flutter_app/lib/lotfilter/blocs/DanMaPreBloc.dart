@@ -20,7 +20,10 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
 
   @override
   Stream<DanMaPreState> mapEventToState(DanMaPreEvent event) async* {
-    if (event is DanMaPreEvent) {
+    if (event is RongCuoChangedEvent) {
+      yield DanMaPreState(state.preKaiJiangHaoController, state.result,
+          state.danmaController, event.groupValue);
+    } else if (event is DanMaPreEvent) {
       yield await _startPredicate();
     }
   }
@@ -28,11 +31,11 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
   Future<DanMaPreState> _startPredicate() async {
     String preKaiJiangHao = state.preKaiJiangHaoController.text;
     if (preKaiJiangHao == null || preKaiJiangHao.isEmpty) {
-      return DanMaPreState(
-          state.preKaiJiangHaoController, "没有输入上期开奖号", state.danmaController);
+      return DanMaPreState(state.preKaiJiangHaoController, "没有输入上期开奖号",
+          state.danmaController, state.groupValue);
     }
 
-   final List<FilterCondition> conditons = [];
+    final List<FilterCondition> conditons = [];
 
     String danmaText = state.danmaController.text;
     if (danmaText != null && danmaText.isNotEmpty) {
@@ -75,10 +78,17 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
       }
     }
 
+    final List<int> rongcuo = [];
+    if (state.groupValue == DanMaPreState.rongcuo01) {
+      rongcuo.add(0);
+      rongcuo.add(1);
+    } else if (state.groupValue == DanMaPreState.rongcuo12) {
+      rongcuo.add(1);
+      rongcuo.add(2);
+    }
+
     Result<List<String>> result = await filterAppService.runRongCuoFilter(
-        List.of(DanMaSource.getZuXuanSource()),
-        conditons,
-        List<int>.of([0, 1]));
+        List.of(DanMaSource.getZuXuanSource()), conditons, rongcuo);
 
     List<String> data = result.data;
 
@@ -98,7 +108,8 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
       ret += element["id"].toString();
     });
 
-    return DanMaPreState(state.preKaiJiangHaoController, ret,state.danmaController);
+    return DanMaPreState(state.preKaiJiangHaoController, ret,
+        state.danmaController, state.groupValue);
   }
 
   int _count(List<String> filteredSource, String num) {

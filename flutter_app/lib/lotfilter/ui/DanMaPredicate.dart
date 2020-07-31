@@ -13,7 +13,7 @@ class DanMaPredicate extends StatefulWidget {
 }
 
 class _State extends State<DanMaPredicate> {
-  DanMaPreBloc _bloc = DanMaPreBloc(DanMaPreState(TextEditingController(),"",TextEditingController()));
+  DanMaPreBloc _bloc = DanMaPreBloc(DanMaPreState(TextEditingController(),"",TextEditingController(),DanMaPreState.rongcuo01));
 
 
   @override
@@ -36,15 +36,24 @@ class _State extends State<DanMaPredicate> {
           decoration: new InputDecoration(
             hintText: '输入上期开奖号',
           ),
-        ),TextField(
-          controller: state.danmaController,
-          decoration: new InputDecoration(
-            hintText: '输入胆码',
-          ),
-        ),Text(state.result), RaisedButton(
+        ), Row(children: <Widget>[
+          Radio<String>(
+              value: DanMaPreState.rongcuo01,
+              groupValue: state.groupValue,
+              onChanged: (value) {
+                _bloc.add(RongCuoChangedEvent(value));
+              }),
+          Text("容错01"),
+          Radio<String>(
+              value: DanMaPreState.rongcuo12,
+              groupValue: state.groupValue,
+              onChanged: (value) {
+                _bloc.add(RongCuoChangedEvent(value));
+              }),
+          Text("容错12"),
+        ]),Text(state.result), RaisedButton(
           onPressed: () {
             _bloc.add(DanMaPreEvent());
-            //_filterVM.startFilter();
           },
           child: new Text('开始预测'),
         ),],));
