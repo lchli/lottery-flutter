@@ -5,9 +5,14 @@ class DanMaPreState{
   static const String rongcuo12="容错12";
 
   TextEditingController preKaiJiangHaoController;
+  TextEditingController simao1Controller;
   TextEditingController danmaController;
-  String result;
+  TextEditingController duanzuSourceController;
+  TextEditingController danmaListController;
+  TextEditingController resultController;
   String groupValue;
+  String dudan;
 
-  DanMaPreState(this.preKaiJiangHaoController, this.result,this.danmaController,this.groupValue);
+  DanMaPreState(this.preKaiJiangHaoController, this.resultController,
+      this.danmaController,this.groupValue,this.simao1Controller,this.duanzuSourceController,this.dudan,this.danmaListController);
 }

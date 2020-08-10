@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutterapp/client/ResultDto.dart';
 import 'package:flutterapp/lotfilter/blocs/DanMaSource.dart';
 import 'package:flutterapp/lotfilter/client/FilterAppService.dart';
@@ -7,6 +8,8 @@ import 'package:flutterapp/lotfilter/domain/DingHewei.dart';
 import 'package:flutterapp/lotfilter/domain/DingKuadu.dart';
 import 'package:flutterapp/lotfilter/domain/Duanzu.dart';
 import 'package:flutterapp/lotfilter/domain/FilterCondition.dart';
+import 'package:flutterapp/lotfilter/domain/ShaDanMa.dart';
+import 'package:flutterapp/lotfilter/domain/ShaErMa.dart';
 import 'package:flutterapp/lotfilter/domain/Utils.dart';
 
 import '../../main.dart';
@@ -21,31 +24,50 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
   @override
   Stream<DanMaPreState> mapEventToState(DanMaPreEvent event) async* {
     if (event is RongCuoChangedEvent) {
-      yield DanMaPreState(state.preKaiJiangHaoController, state.result,
-          state.danmaController, event.groupValue);
+      yield DanMaPreState(state.preKaiJiangHaoController, state.resultController,
+          state.danmaController, event.groupValue, state.simao1Controller,state.duanzuSourceController,state.dudan,state.danmaListController);
     } else if (event is DanMaPreEvent) {
       yield await _startPredicate();
     }
   }
 
+
   Future<DanMaPreState> _startPredicate() async {
     String preKaiJiangHao = state.preKaiJiangHaoController.text;
     if (preKaiJiangHao == null || preKaiJiangHao.isEmpty) {
-      return DanMaPreState(state.preKaiJiangHaoController, "没有输入上期开奖号",
-          state.danmaController, state.groupValue);
+      return DanMaPreState(state.preKaiJiangHaoController, TextEditingController(text:"没有输入上期开奖号"),
+          state.danmaController, state.groupValue, state.simao1Controller,state.duanzuSourceController,state.dudan,
+      state.danmaListController);
+    }
+    List<String> danMaList = [];
+    List<int> danMaListInt = [];
+
+    for (int i = 0; i < preKaiJiangHao.length; i++) {
+      danMaList.add(preKaiJiangHao[i]);
+      danMaListInt.add(int.parse(preKaiJiangHao[i]));
     }
 
-    final List<FilterCondition> conditons = [];
+    //////
+    int sum = int.parse(preKaiJiangHao[0]) * 4 +
+        int.parse(preKaiJiangHao[1]) * 9 +
+        int.parse(preKaiJiangHao[2]) * 9 +
+        3;
+    sum = sum % 10;
+
+    int sum2 =
+        int.parse(preKaiJiangHao[0]) * 5 + int.parse(preKaiJiangHao[1]) * 8 + 7;
+    sum2 = sum2 % 10;
+//
+//    return DanMaPreState(state.preKaiJiangHaoController, "$sum($sum2)",
+//        state.danmaController, state.groupValue);
+
+    /////
+
+    List<FilterCondition> conditons = [];
 
     String danmaText = state.danmaController.text;
     if (danmaText != null && danmaText.isNotEmpty) {
       conditons.add(DingDanMa(Utils.danmaToList(danmaText)));
-    }
-
-    List<String> danMaList = [];
-
-    for (int i = 0; i < preKaiJiangHao.length; i++) {
-      danMaList.add(preKaiJiangHao[i]);
     }
 
     List<String> d2 =
@@ -88,12 +110,101 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     }
 
     Result<List<String>> result = await filterAppService.runRongCuoFilter(
-        List.of(DanMaSource.getZuXuanSource()), conditons, rongcuo);
+        DanMaSource.getZuXuanSource(), conditons, rongcuo);
 
     List<String> data = result.data;
 
-    print("res data:" + data?.toString());
+    // print("res data:" + data?.toString());
 
+
+    String ret = _getCountText(data);
+
+    ret += "\n$sum($sum2)";
+
+    var suoshui="";
+
+
+    String sima01 = state.simao1Controller.text;
+
+    if (sima01.length > 0) {
+      //4码=01
+      var arr01 = sima01.split("/");
+      print("arr01:$arr01");
+
+      List<String> shaermaCondition = []; //4567/4567
+
+      arr01.forEach((element) {
+        for (int i = 0; i < element.length; i++) {
+          for (int j = 0; j < element.length; j++) {
+            shaermaCondition.add("${element[i]}${element[j]}");
+          }
+        }
+      });
+
+      print("shaermaCondition:$shaermaCondition");
+
+      conditons.clear();
+      conditons.add(ShaErMa(shaermaCondition));
+
+     String duanzuSource= state.duanzuSourceController.text;
+     if(duanzuSource.isNotEmpty){
+       List<String> c=duanzuSource.split("*");
+       if(c.isNotEmpty){
+         c.forEach((element) {
+          List<String> ddd= element.split("/");
+          if(ddd.length==3){
+            conditons.add(Duanzu(Utils.danmaToList(ddd[0]),Utils.danmaToList(ddd[1]),Utils.danmaToList(ddd[2])));
+          }
+
+         });
+       }
+     }
+
+     String danmaStr=state.danmaListController.text;
+     if(danmaStr.isNotEmpty){
+       List<String> danmas=  danmaStr.split("/");
+       if(danmas.isNotEmpty){
+         danmas.forEach((element) {
+           conditons.add(DingDanMa(Utils.danmaToList(element)));
+         });
+       }
+     }
+
+      Result<List<String>> result = await filterAppService.runFilter(
+          List.of(DanMaSource.getZuXuanSource()), conditons);
+      List<String> data = result.data;
+
+      Result<List<String>> r = await filterAppService.nozu3(data);
+      data = r.data;
+
+      r = await filterAppService.nozzz(data);
+      data = r.data;
+
+
+      suoshui += "\n\n${data.toString()}";
+      suoshui += "\n${data.length}注";
+
+      ret += "\n\n${_getCountText(data)}";
+    }
+
+    print("ret:$ret");
+
+    return DanMaPreState(state.preKaiJiangHaoController, TextEditingController(text: suoshui),
+        state.danmaController, state.groupValue, state.simao1Controller,state.duanzuSourceController,ret,state.danmaListController);
+  }
+
+  int _count(List<String> filteredSource, String num) {
+    int sum = 0;
+    filteredSource.forEach((element) {
+      if (element.contains(num)) {
+        sum += 1;
+      }
+    });
+
+    return sum;
+  }
+
+  String _getCountText(List<String>  data){
     List<Map> countMap = [];
 
     for (int i = 0; i < 10; i++) {
@@ -108,18 +219,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
       ret += element["id"].toString();
     });
 
-    return DanMaPreState(state.preKaiJiangHaoController, ret,
-        state.danmaController, state.groupValue);
+    return ret;
   }
 
-  int _count(List<String> filteredSource, String num) {
-    int sum = 0;
-    filteredSource.forEach((element) {
-      if (element.contains(num)) {
-        sum += 1;
-      }
-    });
-
-    return sum;
-  }
 }
