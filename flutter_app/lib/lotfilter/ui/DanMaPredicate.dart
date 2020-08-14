@@ -14,7 +14,7 @@ class DanMaPredicate extends StatefulWidget {
 
 class _State extends State<DanMaPredicate> {
   DanMaPreBloc _bloc = DanMaPreBloc(DanMaPreState(TextEditingController(),TextEditingController(),TextEditingController(),
-      DanMaPreState.rongcuo01,TextEditingController(),TextEditingController()," ",TextEditingController()));
+      DanMaPreState.rongcuo01,TextEditingController(),TextEditingController()," ",TextEditingController(),true));
 
 
   @override
@@ -72,6 +72,11 @@ class _State extends State<DanMaPredicate> {
                 _bloc.add(RongCuoChangedEvent(value));
               }),
           Text("容错12"),
+          Checkbox(
+            value: state.sima01Checked,
+            onChanged: (v) => _bloc.add(SiMa01ChangedEvent(v)),
+          ),
+          Text("是否使用四码01"),
         ]), RaisedButton(
           onPressed: () {
             _bloc.add(DanMaPreEvent());

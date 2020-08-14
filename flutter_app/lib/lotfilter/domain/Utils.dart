@@ -32,4 +32,14 @@ class Utils {
 
     return list;
   }
+
+  static List<int> danmaToListInt(String item) {
+    List<int> list = [];
+    int len = item.length;
+    for (int i = 0; i < len; i++) {
+      list.add(int.parse(item[i]));
+    }
+
+    return list;
+  }
 }

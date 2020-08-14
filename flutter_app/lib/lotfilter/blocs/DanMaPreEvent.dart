@@ -10,3 +10,11 @@ class RongCuoChangedEvent extends DanMaPreEvent{
   RongCuoChangedEvent(this.groupValue);
 
 }
+
+
+class SiMa01ChangedEvent extends DanMaPreEvent{
+  final bool checked;
+
+  SiMa01ChangedEvent(this.checked);
+
+}

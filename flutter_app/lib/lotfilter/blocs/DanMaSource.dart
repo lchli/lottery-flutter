@@ -80,7 +80,7 @@ class DanMaSource {
       _sources = _makeDanXuan();
     }
 
-    return _sources;
+      return List.of(_sources);
   }
 
   static List<String> getZuXuanSource() {
@@ -88,7 +88,7 @@ class DanMaSource {
       _sourcesZX = _makeZuXuan();
     }
 
-    return _sourcesZX;
+    return List.of(_sourcesZX);
   }
 
   static List<String> getErMaSource() {
