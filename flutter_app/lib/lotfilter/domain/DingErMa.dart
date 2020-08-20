@@ -3,7 +3,6 @@ import 'package:flutterapp/lotfilter/domain/FilterCondition.dart';
 import 'ShaErMa.dart';
 
 class DingErMa extends FilterCondition {
-
   final List<String> condition;
 
   DingErMa(this.condition);
@@ -18,22 +17,15 @@ class DingErMa extends FilterCondition {
     return ShaErMa(condition);
   }
 
-  List<String> itemList = [];
+  bool isInclude(String item, List<String> condition) {//456
 
-  bool isInclude(String item, List<String> condition) {
-    int len = item.length;
-    itemList.clear();
-    for (int i = 0; i < len; i++) {
-      itemList.add(item.substring(i, i + 1));
-    }
-
-    for (int i = 0; i < len; i++) {
-      for (int j = i + 1; j < len; j++) {
-        if (condition.contains(itemList[i] + "" +
-            itemList[j])) {
-          return true;
-        }
-      }
+    if (condition.contains("${item[0]}${item[1]}") ||
+        condition.contains("${item[1]}${item[0]}") ||
+        condition.contains("${item[0]}${item[2]}") ||
+        condition.contains("${item[2]}${item[0]}") ||
+        condition.contains("${item[1]}${item[2]}") ||
+        condition.contains("${item[2]}${item[1]}")) {
+      return true;
     }
 
     return false;
