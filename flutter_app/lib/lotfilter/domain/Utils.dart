@@ -9,6 +9,16 @@ class Utils {
     return ret.toString();
   }
 
+  static String getItemHezhi(String item) {
+    int ret = 0;
+    int len = item.length;
+    for (int i = 0; i < len; i++) {
+      ret += int.parse(item.substring(i, i + 1));
+    }
+
+    return ret.toString();
+  }
+
   static String getItemKuadu(String item) {
     int len = item.length;
     int max = -1;

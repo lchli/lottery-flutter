@@ -8,6 +8,8 @@ class DanMaPreState{
   TextEditingController simao1Controller;
   TextEditingController danmaController;
   TextEditingController duanzuSourceController;
+  TextEditingController heweiController;
+  TextEditingController kuaduController;
   TextEditingController danmaListController;
   TextEditingController resultController;
   String groupValue;
@@ -16,5 +18,5 @@ class DanMaPreState{
 
   DanMaPreState(this.preKaiJiangHaoController, this.resultController,
       this.danmaController,this.groupValue,this.simao1Controller,this.duanzuSourceController,this.dudan,this.danmaListController,
-      this.sima01Checked);
+      this.sima01Checked,this.heweiController,this.kuaduController);
 }

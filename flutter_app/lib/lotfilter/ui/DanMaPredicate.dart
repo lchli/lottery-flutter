@@ -14,7 +14,8 @@ class DanMaPredicate extends StatefulWidget {
 
 class _State extends State<DanMaPredicate> {
   DanMaPreBloc _bloc = DanMaPreBloc(DanMaPreState(TextEditingController(),TextEditingController(),TextEditingController(),
-      DanMaPreState.rongcuo01,TextEditingController(),TextEditingController()," ",TextEditingController(),true));
+      DanMaPreState.rongcuo01,TextEditingController(),TextEditingController()," ",TextEditingController(),true,
+      TextEditingController(),TextEditingController()));
 
 
   @override
@@ -32,16 +33,12 @@ class _State extends State<DanMaPredicate> {
         return Scaffold(
             appBar: AppBar(
             title: Text("胆码预测"),
-        ),body: Column(children: <Widget>[TextField(
+        ),body:SingleChildScrollView(child:ConstrainedBox(constraints: BoxConstraints(
+          minHeight: 100,
+        ), child:IntrinsicHeight(child:Column(children: <Widget>[TextField(
           controller: state.preKaiJiangHaoController,
           decoration: new InputDecoration(
             hintText: '输入上期开奖号',
-          ),
-        ),TextField(
-          maxLines: 2,
-          controller: state.simao1Controller,
-          decoration: new InputDecoration(
-            hintText: '四码等于01格式3805/3576/678,[除以0.618得前四码；差5对码得四码；神仙姐姐断组得四码]',
           ),
         ),TextField(
           controller: state.duanzuSourceController,
@@ -55,6 +52,20 @@ class _State extends State<DanMaPredicate> {
           maxLines: 2,
           decoration: new InputDecoration(
             hintText: '输入胆码123/456/789',
+
+          ),
+        ),TextField(
+          controller: state.heweiController,
+          maxLines: 1,
+          decoration: new InputDecoration(
+            hintText: '输入和尾',
+
+          ),
+        ),TextField(
+          controller: state.kuaduController,
+          maxLines: 2,
+          decoration: new InputDecoration(
+            hintText: '输入跨度',
 
           ),
         ), Row(children: <Widget>[
@@ -84,7 +95,7 @@ class _State extends State<DanMaPredicate> {
           child: new Text('开始预测'),
         ),Text(state.dudan),
           Expanded(child:TextField(controller: state.resultController,readOnly: true,maxLines: 100,
-        ))],));
+        ))],)))));
       },
     );
   }
