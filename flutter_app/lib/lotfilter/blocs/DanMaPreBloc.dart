@@ -310,6 +310,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     conditons.clear();
     String countText = "";
     String countTextKuadu = "";
+    String countHezhi = "";
 
     if (sima01.length > 0) {
       //4码=01
@@ -353,10 +354,13 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
 
       countText = _getCountText(data);
       countTextKuadu = _getCountTextKuadu(data);
+     countHezhi= _getCountTextHezhi(data);
+
+     print("countHezhi:"+countHezhi);
 
       ret += "\n\n胆码***${countText}***";
       ret += "\n\n四码01条件：${sima01.toString()}";
-      ret += "\n\n和值高到低排序：${_getCountTextHezhi(data)}";
+      ret += "\n\n和值高到低排序：${countHezhi}";
       ret += "\n\n和尾高到低排序：${_getCountTextHeWei(data)}";
       ret += "\n\n跨度高到低排序：${countTextKuadu}";
     } ///////////////
