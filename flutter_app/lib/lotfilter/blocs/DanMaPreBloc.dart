@@ -328,7 +328,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
       });
 
       Result<List<String>> result = await filterAppService.runRongCuoFilter(
-          List.of(DanMaSource.getZuXuanSource()), conditons, [2, 3]);
+          List.of(DanMaSource.getZuXuanSource()), conditons, [1,2, 3]);//[2, 3]
 
       ///
       List<String> data = result.data;
