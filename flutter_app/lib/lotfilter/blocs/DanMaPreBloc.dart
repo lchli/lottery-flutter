@@ -314,21 +314,14 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
 
     if (sima01.length > 0) {
       //4码=01
-
       sima01.forEach((element) {
-        List<String> shaermaCondition = []; //4567/4567
-
-        for (int i = 0; i < element.length; i++) {
-          for (int j = 0; j < element.length; j++) {
-            shaermaCondition.add("${element[i]}${element[j]}");
-          }
-        }
-
-        conditons.add(DingErMa(shaermaCondition));
+        conditons.add(DingErMa(_getErMa(element)));
       });
 
       Result<List<String>> result = await filterAppService.runRongCuoFilter(
-          List.of(DanMaSource.getZuXuanSource()), conditons, [1,2, 3]);//[2, 3]
+          List.of(DanMaSource.getZuXuanSource()),
+          conditons,
+          [1, 2, 3]); //[2, 3]
 
       ///
       List<String> data = result.data;
@@ -354,9 +347,9 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
 
       countText = _getCountText(data);
       countTextKuadu = _getCountTextKuadu(data);
-     countHezhi= _getCountTextHezhi(data);
+      countHezhi = _getCountTextHezhi(data);
 
-     print("countHezhi:"+countHezhi);
+      print("countHezhi:" + countHezhi);
 
       ret += "\n\n胆码***${countText}***";
       ret += "\n\n四码01条件：${sima01.toString()}";
@@ -507,6 +500,16 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     data = result.data;
 
     ///
+    ///4=01缩水。
+    conditons.clear();
+    sima01.forEach((element) {
+      conditons.add(ShaErMa(_getErMa(element)));
+    });
+
+    result =
+        await filterAppService.runFilter(data, conditons); //todo is use this
+    data = result.data;
+
     ///
     conditons.clear();
     String heweiStr = state.heweiController.text;
@@ -539,5 +542,17 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
         state.sima01Checked,
         state.heweiController,
         state.kuaduController);
+  }
+
+  List<String> _getErMa(String numberstr) {
+    List<String> shaermaCondition = []; //4567/4567
+
+    for (int i = 0; i < numberstr.length; i++) {
+      for (int j = 0; j < numberstr.length; j++) {
+        shaermaCondition.add("${numberstr[i]}${numberstr[j]}");
+      }
+    }
+
+    return shaermaCondition;
   }
 }
