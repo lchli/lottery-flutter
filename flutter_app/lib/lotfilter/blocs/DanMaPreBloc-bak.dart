@@ -19,10 +19,10 @@ import '../../main.dart';
 import 'DanMaPreEvent.dart';
 import 'DanMaPreState.dart';
 
-class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
+class DanMaPreBloc_bak extends Bloc<DanMaPreEvent, DanMaPreState> {
   final FilterAppService filterAppService = MyApp.provideFilterAppService();
 
-  DanMaPreBloc(initialState) : super(initialState);
+  DanMaPreBloc_bak(initialState) : super(initialState);
 
   @override
   Stream<DanMaPreState> mapEventToState(DanMaPreEvent event) async* {
@@ -392,15 +392,29 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     data = result.data;
 
     conditons.clear();
-    conditons.add(DingDanMa([countText[1]]));
+    sima01.forEach((element) {
+      conditons.add(ShaErMa(_getErMa(element)));
+    });
+    result =
+    await filterAppService.runRongCuoFilter(data, conditons,[0,1,2]); //todo is use this
+    data = result.data;
+
+    conditons.clear();
+    conditons.add(DingDanMa([countText[1],countText[2],countText[9]]));
     result = await filterAppService.runFilter(data, conditons); /////////复试结果。
     data = result.data;
+
     List<String> res1 = data;
 
     conditons.clear();
     conditons.add(DingDanMa([countText[0]]));
-    result = await filterAppService.runFilter(
-        DanMaSource.getZuXuanSource(), conditons); /////////独胆结果。
+    sima01.forEach((element) {
+      conditons.add(ShaErMa(_getErMa(element)));
+    });
+//    result = await filterAppService.runFilter(
+//        DanMaSource.getZuXuanSource(), conditons); /////////独胆结果。
+    result = await filterAppService.runRongCuoFilter(
+        DanMaSource.getZuXuanSource(), conditons,[0,1]); /////////独胆结
     data = result.data;
 
     //union与复试的结果合并。
@@ -501,26 +515,13 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
         .runRongCuoFilter(data, conditons, [0, 1]); ///////////
     data = result.data;
 
-    ///
-    ///4=01缩水。
-    conditons.clear();
-    sima01.forEach((element) {
-      conditons.add(ShaErMa(_getErMa(element)));
-    });
-
-    result =
+        conditons.clear();
+    conditons.add(DingHewei(Utils.danmaToList(countHewei.substring(0,5))));
+    conditons.add(DingKuadu(Utils.danmaToList(countTextKuadu.substring(0,5))));
+        result =
         await filterAppService.runRongCuoFilter(data, conditons,[0,1]); //todo is use this
-    data = result.data;
+        data = result.data;
 
-    ///
-    conditons.clear();
-    conditons.add(DingHewei(Utils.danmaToList(countHewei.substring(0,6))));
-    conditons.add(DingKuadu(Utils.danmaToList(countTextKuadu.substring(0,6))));
-    result =
-    await filterAppService.runRongCuoFilter(data, conditons,[0,1]); //todo is use this
-    data = result.data;
-
-    ///
     conditons.clear();
     String heweiStr = state.heweiController.text;
     String kuaduStr = state.kuaduController.text;
