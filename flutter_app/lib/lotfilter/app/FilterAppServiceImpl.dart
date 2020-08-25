@@ -8,8 +8,8 @@ import 'package:flutterapp/lotfilter/domain/Zu6.dart';
 
 class FilterAppServiceImpl extends FilterAppService {
   @override
-  Future<Result<List<String>>> runFilter(
-      List<String> dataSource, List<FilterCondition> conditons) async {
+  Result<List<String>> runFilter(
+      List<String> dataSource, List<FilterCondition> conditons)  {
     Result<List<String>> ret = Result<List<String>>();
     if (conditons == null || conditons.isEmpty) {
       ret.data = dataSource;
@@ -26,8 +26,8 @@ class FilterAppServiceImpl extends FilterAppService {
   }
 
   @override
-  Future<Result<List<String>>> runRongCuoFilter(List<String> dataSource,
-      List<FilterCondition> conditons, List<int> rongCuoLevels) async {
+  Result<List<String>> runRongCuoFilter(List<String> dataSource,
+      List<FilterCondition> conditons, List<int> rongCuoLevels)  {
     Result<List<String>> ret = Result<List<String>>();
     if (conditons == null || conditons.isEmpty) {
       ret.data = dataSource;
@@ -44,7 +44,7 @@ class FilterAppServiceImpl extends FilterAppService {
   }
 
   @override
-  Future<Result<List<String>>> nozzz(List<String> dataSource) async{
+  Result<List<String>> nozzz(List<String> dataSource){
     Result<List<String>> ret = Result<List<String>>();
 
     FilterManager filterManager = FilterManager();
@@ -56,7 +56,7 @@ class FilterAppServiceImpl extends FilterAppService {
   }
 
   @override
-  Future<Result<List<String>>> nozu6(List<String> dataSource) async{
+  Result<List<String>> nozu6(List<String> dataSource) {
     Result<List<String>> ret = Result<List<String>>();
 
     FilterManager filterManager = FilterManager();
@@ -67,7 +67,7 @@ class FilterAppServiceImpl extends FilterAppService {
   }
 
   @override
-  Future<Result<List<String>>> nozu3(List<String> dataSource) async{
+  Result<List<String>> nozu3(List<String> dataSource) {
     Result<List<String>> ret = Result<List<String>>();
 
     FilterManager filterManager = FilterManager();

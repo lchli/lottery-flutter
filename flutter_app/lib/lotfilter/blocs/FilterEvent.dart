@@ -85,3 +85,8 @@ class RemoveRongCuoEvent extends FilterEvent {
 
   RemoveRongCuoEvent(this.val);
 }
+class ImportHisEvent extends FilterEvent {
+
+
+  ImportHisEvent();
+}

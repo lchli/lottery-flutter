@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'MainPage.dart';
 import 'client/ResultDto.dart';
 import 'client/UserAppService.dart';
+import 'lotfilter/domain/DanMaRepo.dart';
+import 'lotfilter/infra/DanMaRepoImpl.dart';
 import 'user/login.dart';
 
 void main() => runApp(MyApp());
@@ -33,6 +35,9 @@ class MyApp extends StatelessWidget {
 
   static FilterAppService provideFilterAppService() {
     return FilterAppServiceImpl();
+  }
+  static DanMaRepo provideDanMaRepo() {
+    return DanMaRepoImpl();
   }
 }
 

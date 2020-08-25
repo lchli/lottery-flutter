@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutterapp/client/ResultDto.dart';
 import 'package:flutterapp/lotfilter/client/FilterAppService.dart';
+import 'package:flutterapp/lotfilter/domain/DanMaRepo.dart';
 import 'package:flutterapp/lotfilter/domain/DingDanMa.dart';
 import 'package:flutterapp/lotfilter/domain/DingErMa.dart';
 import 'package:flutterapp/lotfilter/domain/DingHewei.dart';
@@ -19,6 +20,7 @@ import 'FilterState.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
   final FilterAppService filterAppService = MyApp.provideFilterAppService();
+  DanMaRepo _danMaRepo=MyApp.provideDanMaRepo();
 
   FilterBloc() : super(FilterState.newFilterState()) {
     print("new FilterBloc");
@@ -85,6 +87,9 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       FilterState newst = state.clone();
       newst.rongcuoChecked.remove(event.val);
       yield newst;
+    }else if (event is ImportHisEvent) {
+      _danMaRepo.importHistory(state.controllerHis.text);
+      yield state.clone();
     }
   }
 
@@ -143,10 +148,10 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
     Result<List<String>> result;
     if (state.rongcuoChecked.isEmpty) {
-      result = await filterAppService.runFilter(
+      result =  filterAppService.runFilter(
           List.of(DanMaSource.getZuXuanSource()), conditons);
     } else {
-      result = await filterAppService.runRongCuoFilter(
+      result =  filterAppService.runRongCuoFilter(
           List.of(DanMaSource.getZuXuanSource()),
           conditons,
           state.rongcuoChecked);
@@ -154,16 +159,16 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     List<String> data = result.data;
 
     if (!state.isZu3Checked) {
-      Result<List<String>> r = await filterAppService.nozu3(data);
+      Result<List<String>> r =  filterAppService.nozu3(data);
       data = r.data;
     }
 
     if (!state.isZu6Checked) {
-      Result<List<String>> r = await filterAppService.nozu6(data);
+      Result<List<String>> r =  filterAppService.nozu6(data);
       data = r.data;
     }
     if (!state.isZZZChecked) {
-      Result<List<String>> r = await filterAppService.nozzz(data);
+      Result<List<String>> r =  filterAppService.nozzz(data);
       data = r.data;
     }
 

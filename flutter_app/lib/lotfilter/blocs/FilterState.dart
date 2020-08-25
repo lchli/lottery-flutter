@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 class FilterState {
   TextEditingController controller;
+  TextEditingController controllerHis;
+
 
   List<String> danmasChecked;
   List<String> shamasChecked;
@@ -36,11 +38,11 @@ class FilterState {
       this.isZu6Checked,
       this.isZZZChecked,
       this.rongcuoChecked,
-      this.controller);
+      this.controller,this.controllerHis);
 
   static FilterState newFilterState() {
     return FilterState([], [], [], [], [], [], [], [], [], true, true, true, [],
-        new TextEditingController());
+        new TextEditingController(),new TextEditingController());
   }
 
   FilterState clone() {
@@ -58,6 +60,6 @@ class FilterState {
         isZu6Checked,
         isZZZChecked,
         rongcuoChecked,
-        controller);
+        controller,controllerHis);
   }
 }
