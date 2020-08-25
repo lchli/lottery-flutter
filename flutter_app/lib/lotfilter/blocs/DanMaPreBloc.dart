@@ -6,6 +6,7 @@ import 'package:flutterapp/lotfilter/client/FilterAppService.dart';
 import 'package:flutterapp/lotfilter/domain/DingDanMa.dart';
 import 'package:flutterapp/lotfilter/domain/DingErMa.dart';
 import 'package:flutterapp/lotfilter/domain/DingHewei.dart';
+import 'package:flutterapp/lotfilter/domain/DingHezhi.dart';
 import 'package:flutterapp/lotfilter/domain/DingKuadu.dart';
 import 'package:flutterapp/lotfilter/domain/Duanzu.dart';
 import 'package:flutterapp/lotfilter/domain/FilterCondition.dart';
@@ -39,7 +40,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
           state.danmaListController,
           state.sima01Checked,
           state.heweiController,
-          state.kuaduController);
+          state.kuaduController,state.hzController);
     } else if (event is SiMa01ChangedEvent) {
       yield DanMaPreState(
           state.preKaiJiangHaoController,
@@ -52,7 +53,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
           state.danmaListController,
           event.checked,
           state.heweiController,
-          state.kuaduController);
+          state.kuaduController,state.hzController);
     } else if (event is DanMaPreEvent) {
       yield await _startPredicate();
     }
@@ -192,7 +193,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
           state.danmaListController,
           state.sima01Checked,
           state.heweiController,
-          state.kuaduController);
+          state.kuaduController,state.hzController);
     }
 
     String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
@@ -236,20 +237,20 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     conditons.clear();
 
     conditons.add(FuShi([
+      countText[0],
       countText[1],
       countText[2],
       countText[3],
-      countText[4],
       countText[9],
       countText[8]
     ]));
     conditons.add(FuShi([
+      countText[0],
       countText[1],
       countText[2],
       countText[3],
       countText[4],
-      countText[5],
-      countText[6]
+      countText[5]
     ]));
     conditons.add(FuShi([
       countText[4],
@@ -263,17 +264,19 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     Result<List<String>> result = filterAppService.runRongCuoFilter(
         DanMaSource.getZuXuanSource(), conditons, [0, 1, 2]); /////////[0, 1, 2]
     data = result.data;
-
-    conditons.clear();
-    conditons.add(DingDanMa([countText[1]]));
-    result = filterAppService.runFilter(data, conditons); /////////复试结果。
-    data = result.data;
     List<String> res1 = data;
 
     conditons.clear();
-    conditons.add(DingDanMa([countText[0]]));
+    conditons.add(FuShi([
+      countText[0],
+      countText[1],
+      countText[7],
+      countText[6],
+      countText[9],
+      countText[8]
+    ]));
     result = filterAppService.runFilter(
-        DanMaSource.getZuXuanSource(), conditons); /////////独胆结果。
+        DanMaSource.getZuXuanSource(), conditons); /////////
     data = result.data;
 
     //union与复试的结果合并。
@@ -285,38 +288,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
 
     data = res1;
 
-    ///大底结束。
-
-    conditons.clear();
-    String danmaStr = state.danmaListController.text;
-    if (danmaStr.isNotEmpty) {
-      List<String> danmas = danmaStr.split("/");
-      if (danmas.isNotEmpty) {
-        danmas.forEach((element) {
-          conditons.add(DingDanMa(Utils.danmaToList(element)));
-        });
-      }
-    }
-    result = filterAppService.runFilter(data, conditons); /////////
-    data = result.data;
-
-    conditons.clear();
-    String duanzuSource = state.duanzuSourceController.text;
-    if (duanzuSource.isNotEmpty) {
-      List<String> c = duanzuSource.split("*");
-      if (c.isNotEmpty) {
-        c.forEach((element) {
-          List<String> ddd = element.split("/");
-          if (ddd.length == 3) {
-            conditons.add(Duanzu(Utils.danmaToList(ddd[0]),
-                Utils.danmaToList(ddd[1]), Utils.danmaToList(ddd[2])));
-          }
-        });
-      }
-    }
-    result = filterAppService.runFilter(data, conditons); ///////////
-    data = result.data;
-
+    ///去掉组三豹子。
     result = filterAppService.nozu3(data); ////////
     data = result.data;
 
@@ -375,34 +347,70 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     data = result.data;
 
     ///
-    ///4=01缩水。
+    ///首尾4胆过滤。
     conditons.clear();
-    sima01.forEach((element) {
-      conditons.add(ShaErMa(_getErMa(element)));
-    });
-
-    result = filterAppService
-        .runRongCuoFilter(data, conditons, [0, 1]); //todo is use this
+    conditons.add(
+        DingDanMa([countText[0], countText[1], countText[9], countText[8]]));
+    result = filterAppService.runFilter(data, conditons);
     data = result.data;
 
-    ///和尾跨度容错缩水。
+    ///和尾/跨度容错缩水。
     conditons.clear();
-    conditons.add(DingHewei(Utils.danmaToList(countHewei.substring(0, 6))));
-    conditons.add(DingKuadu(Utils.danmaToList(countTextKuadu.substring(0, 6))));
-    result = filterAppService
-        .runRongCuoFilter(data, conditons, [0, 1]); //todo is use this
+    conditons.add(DingHewei(Utils.danmaToList(countHewei.substring(0, 5))));
+    conditons.add(DingKuadu(Utils.danmaToList(countTextKuadu.substring(0, 5))));
+    result = filterAppService.runRongCuoFilter(data, conditons, [0, 1]);
+    data = result.data;
+
+    ///大底结束。
+
+    ///
+    ///
+    ///其它输入条件过滤============================================================
+    conditons.clear();
+    String danmaStr = state.danmaListController.text;
+    if (danmaStr.isNotEmpty) {
+      List<String> danmas = danmaStr.split("/");
+      if (danmas.isNotEmpty) {
+        danmas.forEach((element) {
+          conditons.add(DingDanMa(Utils.danmaToList(element)));
+        });
+      }
+    }
+    result = filterAppService.runFilter(data, conditons); /////////
+    data = result.data;
+
+    conditons.clear();
+    String duanzuSource = state.duanzuSourceController.text;
+    if (duanzuSource.isNotEmpty) {
+      List<String> c = duanzuSource.split("*");
+      if (c.isNotEmpty) {
+        c.forEach((element) {
+          List<String> ddd = element.split("/");
+          if (ddd.length == 3) {
+            conditons.add(Duanzu(Utils.danmaToList(ddd[0]),
+                Utils.danmaToList(ddd[1]), Utils.danmaToList(ddd[2])));
+          }
+        });
+      }
+    }
+    result = filterAppService.runFilter(data, conditons); ///////////
     data = result.data;
 
     ///
     conditons.clear();
     String heweiStr = state.heweiController.text;
     String kuaduStr = state.kuaduController.text;
+    String hzStr = state.hzController.text;
     if (heweiStr.isNotEmpty) {
       conditons.add(DingHewei(Utils.danmaToList(heweiStr)));
     }
     if (kuaduStr.isNotEmpty) {
       conditons.add(DingKuadu(Utils.danmaToList(kuaduStr)));
     }
+    if (hzStr.isNotEmpty) {
+      conditons.add(DingHezhi(hzStr.split("/")));
+    }
+
     if (conditons.isNotEmpty) {
       result = filterAppService.runFilter(data, conditons); ///////////
       data = result.data;
@@ -424,7 +432,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
         state.danmaListController,
         state.sima01Checked,
         state.heweiController,
-        state.kuaduController);
+        state.kuaduController,state.hzController);
   }
 
   List<String> _getErMa(String numberstr) {

@@ -15,7 +15,7 @@ class DanMaPredicate extends StatefulWidget {
 class _State extends State<DanMaPredicate> {
   DanMaPreBloc _bloc = DanMaPreBloc(DanMaPreState(TextEditingController(),TextEditingController(),TextEditingController(),
       DanMaPreState.rongcuo01,TextEditingController(),TextEditingController()," ",TextEditingController(),true,
-      TextEditingController(),TextEditingController()));
+      TextEditingController(),TextEditingController(),TextEditingController()));
 
 
   @override
@@ -68,7 +68,14 @@ class _State extends State<DanMaPredicate> {
             hintText: '输入跨度',
 
           ),
-        ), Row(children: <Widget>[
+        ), TextField(
+          controller: state.hzController,
+          maxLines: 2,
+          decoration: new InputDecoration(
+            hintText: '输入和值',
+
+          ),
+        ),Row(children: <Widget>[
           Radio<String>(
               value: DanMaPreState.rongcuo01,
               groupValue: state.groupValue,
