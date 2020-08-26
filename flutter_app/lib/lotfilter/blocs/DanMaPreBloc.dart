@@ -236,7 +236,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
 
     ///大底开始。
     ///
-    data = DanPreUtils.getDaDi(preKaiJiangHao);
+    data = DanPreUtils.getDadi2Wei(preKaiJiangHao);
     ///大底结束。
     ///
     ///

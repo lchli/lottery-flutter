@@ -382,7 +382,7 @@ class DanPreUtils {
   static List<String> getDadi2Wei(String preKaiJiangHao){
     // String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
     List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
-    //String countText = _getCountText(data);
+    String countText = _getCountText(data);
 //    String countTextKuadu = _getCountTextKuadu(data);
 //    String countHezhi = _getCountTextHezhi(data);
     String countHewei = _getCountTextHeWei(data);
@@ -390,7 +390,8 @@ class DanPreUtils {
     ///
     List<FilterCondition> conditons = [];
     conditons.clear();
-    conditons.add(DingHewei([countHewei[0],countHewei[1]]));
+    conditons.add(DingDanMa([countText[0]]));
+    conditons.add(DingHewei([countHewei[0],countHewei[1],countHewei[2]]));
     Result<List<String>> result = filterAppService.runFilter(
         DanMaSource.getZuXuanSource(), conditons);
     data = result.data;
