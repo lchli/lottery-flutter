@@ -70,22 +70,29 @@ class _DanMaHistryPageSt extends State<DanMaHistryPage> {
 
   Widget _buildRow(HistroyRow item, BuildContext context) {
     return new ListTile(
+      contentPadding: EdgeInsets.all(0),
       title: new Row(
         children: <Widget>[Text(item.qiHao),Padding(padding: EdgeInsets.only(left: 10)),Text(item.kaiJiangHao),
-          Padding(padding: EdgeInsets.only(left: 20)),
+          Padding(padding: EdgeInsets.only(left: 15)),
           Text(item.duDan1,style:TextStyle(color: _getTextColor(item.duDan1,item))),Text(item.ciDan1, style: TextStyle(color: _getTextColor(item.ciDan1,item))),
-          Padding(padding: EdgeInsets.only(left: 10)),
+          Padding(padding: EdgeInsets.only(left: 5)),
           Text(item.duDan2,style:TextStyle(color:_getTextColor(item.duDan2,item))),Text(item.ciDan2, style: TextStyle(color: _getTextColor(item.ciDan2,item))),
-          Padding(padding: EdgeInsets.only(left: 10)),
+          Padding(padding: EdgeInsets.only(left: 5)),
           Text(item.duDan3,style:TextStyle(color: _getTextColor(item.duDan3,item))),Text(item.ciDan3, style: TextStyle(color:_getTextColor(item.ciDan3,item))),
-          Padding(padding: EdgeInsets.only(left: 10)),
+          Padding(padding: EdgeInsets.only(left: 5)),
           Text(item.hewei0,style:TextStyle(color: _getHeweiTextColor(item.hewei0,item))),Text(item.hewei1, style: TextStyle(color:_getHeweiTextColor(item.hewei1,item))),
           Text(item.hewei2,style:TextStyle(color: _getHeweiTextColor(item.hewei2,item))),Text(item.hewei3, style: TextStyle(color:_getHeweiTextColor(item.hewei3,item))),
           Text(item.hewei4,style:TextStyle(color: _getHeweiTextColor(item.hewei4,item))),
-          Padding(padding: EdgeInsets.only(left: 10)),
+          Padding(padding: EdgeInsets.only(left: 5)),
           Text(item.kuadu0,style:TextStyle(color: _getKuaduTextColor(item.kuadu0,item))),Text(item.kuadu1, style: TextStyle(color:_getKuaduTextColor(item.kuadu1,item))),
           Text(item.kuadu2,style:TextStyle(color: _getKuaduTextColor(item.kuadu2,item))),Text(item.kuadu3, style: TextStyle(color:_getKuaduTextColor(item.kuadu3,item))),
           Text(item.kuadu4,style:TextStyle(color: _getKuaduTextColor(item.kuadu4,item))),
+          Padding(padding: EdgeInsets.only(left: 5)),
+          Text(item.daDi,style:TextStyle(color: item.daDi=="对"?_selectedColor:_normalColor)),
+          Padding(padding: EdgeInsets.only(left: 5)),
+          Text(item.daDiK,style:TextStyle(color: item.daDiK=="对"?_selectedColor:_normalColor)),
+          Padding(padding: EdgeInsets.only(left: 5)),
+          Text(item.daDi2wei,style:TextStyle(color: item.daDi2wei=="对"?_selectedColor:_normalColor)),
         ],
          )
     );

@@ -6,6 +6,7 @@ import 'package:flutterapp/lotfilter/domain/DingHewei.dart';
 import 'package:flutterapp/lotfilter/domain/DingKuadu.dart';
 import 'package:flutterapp/lotfilter/domain/Duanzu.dart';
 import 'package:flutterapp/lotfilter/domain/FilterCondition.dart';
+import 'package:flutterapp/lotfilter/domain/FuShi.dart';
 import 'package:flutterapp/lotfilter/domain/SiMa01.dart';
 import 'package:flutterapp/lotfilter/domain/Utils.dart';
 import 'package:flutterapp/main.dart';
@@ -283,6 +284,128 @@ class DanPreUtils {
     });
 
     return ret;
+  }
+
+
+  static List<String> getDaDiResult(String preKaiJiangHao){
+   // String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
+    List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
+    String countText = _getCountText(data);
+//    String countTextKuadu = _getCountTextKuadu(data);
+//    String countHezhi = _getCountTextHezhi(data);
+    String countHewei = _getCountTextHeWei(data);
+    ///大底开始。
+    ///
+    List<FilterCondition> conditons = [];
+    conditons.clear();
+    conditons.add(DingDanMa([countText[0],countText[1]]));
+    conditons.add(DingHewei([countHewei[0],countHewei[1]]));
+    Result<List<String>> result = filterAppService.runFilter(
+        DanMaSource.getZuXuanSource(), conditons);
+    data = result.data;
+
+
+    ///去掉组三豹子。
+    result = filterAppService.nozu3(data); ////////
+    data = result.data;
+
+    result = filterAppService.nozzz(data); ///////
+    data = result.data;
+
+
+
+    return data;
+  }
+
+
+  static List<String> getDaDiResultByKuadu(String preKaiJiangHao){
+    // String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
+    List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
+    String countText = _getCountText(data);
+    String countTextKuadu = _getCountTextKuadu(data);
+//    String countHezhi = _getCountTextHezhi(data);
+   // String countHewei = _getCountTextHeWei(data);
+    ///大底开始。
+    ///
+    List<FilterCondition> conditons = [];
+    conditons.clear();
+    conditons.add(DingDanMa([countText[0],countText[1]]));
+    conditons.add(DingKuadu([countTextKuadu[2],countTextKuadu[3]]));
+    Result<List<String>> result = filterAppService.runFilter(
+        DanMaSource.getZuXuanSource(), conditons);
+    data = result.data;
+
+
+    ///去掉组三豹子。
+    result = filterAppService.nozu3(data); ////////
+    data = result.data;
+
+    result = filterAppService.nozzz(data); ///////
+    data = result.data;
+
+
+
+    return data;
+  }
+
+
+  static List<String> getDaDi(String preKaiJiangHao){
+    // String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
+    List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
+    String countText = _getCountText(data);
+//    String countTextKuadu = _getCountTextKuadu(data);
+//    String countHezhi = _getCountTextHezhi(data);
+   // String countHewei = _getCountTextHeWei(data);
+    ///大底开始。
+    ///
+    List<FilterCondition> conditons = [];
+    conditons.clear();
+    conditons.add(DingDanMa([countText[0],countText[1]]));
+    Result<List<String>> result = filterAppService.runFilter(
+        DanMaSource.getZuXuanSource(), conditons);
+    data = result.data;
+
+
+    ///去掉组三豹子。
+    result = filterAppService.nozu3(data); ////////
+    data = result.data;
+
+    result = filterAppService.nozzz(data); ///////
+    data = result.data;
+
+
+
+    return data;
+  }
+
+
+  static List<String> getDadi2Wei(String preKaiJiangHao){
+    // String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
+    List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
+    //String countText = _getCountText(data);
+//    String countTextKuadu = _getCountTextKuadu(data);
+//    String countHezhi = _getCountTextHezhi(data);
+    String countHewei = _getCountTextHeWei(data);
+    ///大底开始。
+    ///
+    List<FilterCondition> conditons = [];
+    conditons.clear();
+    conditons.add(DingHewei([countHewei[0],countHewei[1]]));
+    Result<List<String>> result = filterAppService.runFilter(
+        DanMaSource.getZuXuanSource(), conditons);
+    data = result.data;
+
+
+    ///去掉组三豹子。
+    result = filterAppService.nozu3(data); ////////
+    data = result.data;
+
+    result = filterAppService.nozzz(data); ///////
+    data = result.data;
+
+
+
+    return data;
   }
 
 }

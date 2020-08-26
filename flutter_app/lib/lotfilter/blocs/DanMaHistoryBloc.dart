@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutterapp/lotfilter/domain/DanMaRepo.dart';
+import 'package:flutterapp/lotfilter/domain/Utils.dart';
 
 import '../../main.dart';
 import 'DanMaHistoryState.dart';
@@ -52,6 +53,9 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowHeader.kuadu2="";
     rowHeader.kuadu3="";
     rowHeader.kuadu4="";
+    rowHeader.daDi="daDi";
+    rowHeader.daDiK="daDk";
+    rowHeader.daDi2wei="2we";
 
 
     histroyRows.add(rowHeader);
@@ -96,6 +100,12 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
       row.kuadu3=kuadu[3];
       row.kuadu4=kuadu[4];
 
+      row.daDi=DanPreUtils.getDaDiResult(preKaiJiangHao).contains(Utils.getSortedDanMa(element.kaiJiangHao))?"对":"错";
+
+      row.daDiK=DanPreUtils.getDaDiResultByKuadu(preKaiJiangHao).contains(Utils.getSortedDanMa(element.kaiJiangHao))?"对":"错";
+
+      row.daDi2wei=DanPreUtils.getDadi2Wei(preKaiJiangHao).contains(Utils.getSortedDanMa(element.kaiJiangHao))?"对":"错";
+
 
 
       histroyRows.add(row);
@@ -134,6 +144,10 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowNext.kuadu2=kuadu[2];
     rowNext.kuadu3=kuadu[3];
     rowNext.kuadu4=kuadu[4];
+
+    rowNext.daDi="?";
+    rowNext.daDiK="?";
+    rowNext.daDi2wei="?";
 
     histroyRows.add(rowNext);
 

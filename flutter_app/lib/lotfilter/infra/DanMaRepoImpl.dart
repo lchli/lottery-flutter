@@ -20,10 +20,12 @@ class DanMaRepoImpl extends DanMaRepo {
     List<String> lines = lottery_his.split("\n");
     lines.forEach((element) {
       List<String> columns = element.split(" ");
-      var item = KJDto();
-      item.qiHao = columns[0];
-      item.kaiJiangHao = columns[2];
-      list.add(item);
+      if(columns.length>=3) {
+        var item = KJDto();
+        item.qiHao = columns[0];
+        item.kaiJiangHao = columns[2];
+        list.add(item);
+      }
     });
 
     res.data = list;

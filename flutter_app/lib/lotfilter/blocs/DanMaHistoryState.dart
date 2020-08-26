@@ -36,6 +36,10 @@ class HistroyRow{
   String kuadu3;
   String kuadu4;
 
+  String daDi;
+  String daDiK;
+  String daDi2wei;
+
 
 
 }

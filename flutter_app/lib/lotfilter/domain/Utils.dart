@@ -52,4 +52,15 @@ class Utils {
 
     return list;
   }
+
+  static String getSortedDanMa(String item) {
+    var list = danmaToList(item);
+    list.sort();
+    var ret = "";
+    list.forEach((element) {
+      ret += element;
+    });
+
+    return ret;
+  }
 }
