@@ -12,8 +12,6 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
   DanMaRepo _danMaRepo = MyApp.provideDanMaRepo();
 
   DanMaHistoryBloc() : super(DanMaHistoryState([]));
-  Color _selectedColor = Color(0xFFDC143C);
-  Color _normalColor = Color(0xFF000000);
 
   @override
   Stream<DanMaHistoryState> mapEventToState(DanMaHistroyEvent event) async* {
@@ -29,23 +27,32 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     var data = result.data;
     List<HistroyRow> histroyRows = [];
     HistroyRow rowHeader = HistroyRow();
-    rowHeader.kaiJiangHao = "开奖号";
+    rowHeader.kaiJiangHao = "开奖";
     rowHeader.qiHao = "期号";
 
-    rowHeader.duDan1 = "四码01";
+    rowHeader.duDan1 = "01";
     rowHeader.ciDan1 = "";
-    rowHeader.duDan1Color = _normalColor;
-    rowHeader.ciDan1Color = _normalColor;
 
-    rowHeader.duDan2 = "百十";
+
+    rowHeader.duDan2 = "bs";
     rowHeader.ciDan2 = "";
-    rowHeader.duDan2Color = _normalColor;
-    rowHeader.ciDan2Color = _normalColor;
 
-    rowHeader.duDan3 = "断组";
+
+    rowHeader.duDan3 = "duz";
     rowHeader.ciDan3 = "";
-    rowHeader.duDan3Color = _normalColor;
-    rowHeader.ciDan3Color = _normalColor;
+
+    rowHeader.hewei0 = "hw";
+    rowHeader.hewei1 = "";
+    rowHeader.hewei2 = "";
+    rowHeader.hewei3 = "";
+    rowHeader.hewei4 = "";
+
+    rowHeader.kuadu0="kd";
+    rowHeader.kuadu1="";
+    rowHeader.kuadu2="";
+    rowHeader.kuadu3="";
+    rowHeader.kuadu4="";
+
 
     histroyRows.add(rowHeader);
 
@@ -65,59 +72,68 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
       var r1 =  DanPreUtils.siMa01Pre(preKaiJiangHao);
       row.duDan1 = r1[0];
       row.ciDan1 = r1[1];
-      row.duDan1Color = element.kaiJiangHao.contains(row.duDan1)
-          ? _selectedColor
-          : _normalColor;
-      row.ciDan1Color = element.kaiJiangHao.contains(row.ciDan1)
-          ? _selectedColor
-          : _normalColor;
+
 
       var r2 =  DanPreUtils.bsgePre(preKaiJiangHao);
       row.duDan2 = r2[0];
       row.ciDan2 = r2[1];
-      row.duDan2Color = element.kaiJiangHao.contains(row.duDan2)
-          ? _selectedColor
-          : _normalColor;
-      row.ciDan2Color = element.kaiJiangHao.contains(row.ciDan2)
-          ? _selectedColor
-          : _normalColor;
 
       var r3 =  DanPreUtils.duanZuPre(preKaiJiangHao);
       row.duDan3 = r3[0];
       row.ciDan3 = r3[9];
-      row.duDan3Color = element.kaiJiangHao.contains(row.duDan3)
-          ? _selectedColor
-          : _normalColor;
-      row.ciDan3Color = element.kaiJiangHao.contains(row.ciDan3)
-          ? _selectedColor
-          : _normalColor;
+
+      var hw=  DanPreUtils.siMa01PreHewei(preKaiJiangHao);
+      row.hewei0 = hw[0];
+      row.hewei1 = hw[1];
+      row.hewei2 = hw[2];
+      row.hewei3 = hw[8];
+      row.hewei4 = hw[9];
+
+      var kuadu=  DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
+      row.kuadu0=kuadu[0];
+      row.kuadu1=kuadu[1];
+      row.kuadu2=kuadu[2];
+      row.kuadu3=kuadu[3];
+      row.kuadu4=kuadu[4];
+
+
 
       histroyRows.add(row);
     }
 
     HistroyRow rowNext = HistroyRow();
-    rowNext.kaiJiangHao = "xxx";
-    rowNext.qiHao = "xxxxxxx";
+    rowNext.kaiJiangHao = "000";
+    rowNext.qiHao = "0000000";
 
     String preKaiJiangHao = data[data.length - 1].kaiJiangHao;
 
     var r1 =  DanPreUtils.siMa01Pre(preKaiJiangHao);
     rowNext.duDan1 = r1[0];
     rowNext.ciDan1 = r1[1];
-    rowNext.duDan1Color = _normalColor;
-    rowNext.ciDan1Color = _normalColor;
+
 
     var r2 =  DanPreUtils.bsgePre(preKaiJiangHao);
     rowNext.duDan2 = r2[0];
     rowNext.ciDan2 = r2[1];
-    rowNext.duDan2Color =  _normalColor;
-    rowNext.ciDan2Color = _normalColor;
+
 
     var r3 =  DanPreUtils.duanZuPre(preKaiJiangHao);
     rowNext.duDan3 = r3[0];
     rowNext.ciDan3 = r3[9];
-    rowNext.duDan3Color = _normalColor;
-    rowNext.ciDan3Color =  _normalColor;
+
+    var hw=  DanPreUtils.siMa01PreHewei(preKaiJiangHao);
+    rowNext.hewei0 = hw[0];
+    rowNext.hewei1 = hw[1];
+    rowNext.hewei2 = hw[2];
+    rowNext.hewei3 = hw[3];
+    rowNext.hewei4 = hw[4];
+
+    var kuadu=  DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
+    rowNext.kuadu0=kuadu[0];
+    rowNext.kuadu1=kuadu[1];
+    rowNext.kuadu2=kuadu[2];
+    rowNext.kuadu3=kuadu[3];
+    rowNext.kuadu4=kuadu[4];
 
     histroyRows.add(rowNext);
 

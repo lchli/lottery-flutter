@@ -10,19 +10,32 @@ class DanMaHistoryState{
 class HistroyRow{
   String qiHao;
   String kaiJiangHao;
+
   String duDan1;
-  Color duDan1Color;
   String ciDan1;
-  Color ciDan1Color;
+
 
 
   String duDan2;
   String ciDan2;
-  Color duDan2Color;
-  Color ciDan2Color;
+
 
   String duDan3;
   String ciDan3;
-  Color duDan3Color;
-  Color ciDan3Color;
+
+
+  String hewei0;
+  String hewei1;
+  String hewei2;
+  String hewei3;
+  String hewei4;
+
+  String kuadu0;
+  String kuadu1;
+  String kuadu2;
+  String kuadu3;
+  String kuadu4;
+
+
+
 }

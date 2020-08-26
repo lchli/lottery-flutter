@@ -20,6 +20,16 @@ class DanPreUtils {
     return _getCountText(data);
   }
 
+  static String siMa01PreHewei(String preKaiJiangHao) {
+    List<String> data =  siMa01Result(preKaiJiangHao);
+    return _getCountTextHeWei(data);
+  }
+
+  static String siMa01PreKuadu(String preKaiJiangHao) {
+    List<String> data =  siMa01Result(preKaiJiangHao);
+    return _getCountTextKuadu(data);
+  }
+
   static String duanZuPre(String preKaiJiangHao) {
     List<String> data =  duanZuResult(preKaiJiangHao);
     return _getCountText(data);
@@ -181,4 +191,98 @@ class DanPreUtils {
     List<String> data = result.data;
     return data;
   }
+
+
+  static String _getCountTextHeWei(List<String> data) {
+    List<Map> countMap = [];
+    Map<int, int> hezhiMap = {};
+
+    data.forEach((element) {
+      int sum = int.parse(Utils.getItemHeWei(element));
+
+      if (hezhiMap[sum] != null) {
+        hezhiMap[sum] += 1;
+      } else {
+        hezhiMap[sum] = 1;
+      }
+    });
+
+    hezhiMap.forEach((key, value) {
+      countMap.add({"id": key, "count": value});
+    });
+
+    countMap.sort((a, b) => b["count"].compareTo(a["count"]));
+
+    print("res data sorted:" + countMap.toString());
+
+    String ret = "";
+    countMap.forEach((element) {
+      ret += element["id"].toString();
+    });
+
+    return ret;
+  }
+
+  static String _getCountTextKuadu(List<String> data) {
+    List<Map> countMap = [];
+    Map<int, int> hezhiMap = {};
+
+    data.forEach((element) {
+      int sum = int.parse(Utils.getItemKuadu(element));
+
+      if (hezhiMap[sum] != null) {
+        hezhiMap[sum] += 1;
+      } else {
+        hezhiMap[sum] = 1;
+      }
+    });
+
+    hezhiMap.forEach((key, value) {
+      countMap.add({"id": key, "count": value});
+    });
+
+    countMap.sort((a, b) => b["count"].compareTo(a["count"]));
+
+    print("res data sorted:" + countMap.toString());
+
+    String ret = "";
+    countMap.forEach((element) {
+      ret += element["id"].toString();
+    });
+
+    return ret;
+  }
+
+
+  static String _getCountTextHezhi(List<String> data) {
+    List<Map> countMap = [];
+    Map<int, int> hezhiMap = {};
+
+    data.forEach((element) {
+      int sum = int.parse(Utils.getItemHezhi(element));
+      print("hz:$element=$sum");
+
+      if (hezhiMap[sum] != null) {
+        hezhiMap[sum] += 1;
+      } else {
+        hezhiMap[sum] = 1;
+      }
+    });
+
+    hezhiMap.forEach((key, value) {
+      countMap.add({"id": key, "count": value});
+    });
+
+    countMap.sort((a, b) => b["count"].compareTo(a["count"]));
+
+    print("res data sorted:" + countMap.toString());
+
+    String ret = "";
+    countMap.forEach((element) {
+      ret += element["id"].toString() + ",";
+    });
+
+    return ret;
+  }
+
 }
