@@ -12,19 +12,21 @@ class DanMaRepoImpl extends DanMaRepo {
     Result<List<KJDto>> res = Result<List<KJDto>>();
 
     SharedPreferences sp = await Pref.prefs;
-    String lottery_his = sp.getString("lottery_his");
-    if (lottery_his == null || lottery_his.isEmpty) {
+    String lotteryHis = sp.getString("lottery_his");
+    if (lotteryHis == null || lotteryHis.isEmpty) {
       return res;
     }
     List<KJDto> list = [];
-    List<String> lines = lottery_his.split("\n");
+    List<String> lines = lotteryHis.split("\n");
     lines.forEach((element) {
-      List<String> columns = element.split(" ");
-      if(columns.length>=3) {
-        var item = KJDto();
-        item.qiHao = columns[0];
-        item.kaiJiangHao = columns[2];
-        list.add(item);
+      if(element!=null&&element.isNotEmpty) {
+        List<String> columns = element.split(" ");
+        if (columns.length >= 3) {
+          var item = KJDto();
+          item.qiHao = columns[0];
+          item.kaiJiangHao = columns[2];
+          list.add(item);
+        }
       }
     });
 
