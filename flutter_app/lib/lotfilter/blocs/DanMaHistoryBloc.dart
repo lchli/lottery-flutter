@@ -33,11 +33,11 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
 
     rowHeader.duDan1 = "01";
     rowHeader.ciDan1 = "";
-
+    rowHeader.sanDan1 = "";
+    rowHeader.siDan1 = "";
 
     rowHeader.duDan2 = "bs";
     rowHeader.ciDan2 = "";
-
 
     rowHeader.duDan3 = "duz";
     rowHeader.ciDan3 = "";
@@ -48,15 +48,14 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowHeader.hewei3 = "";
     rowHeader.hewei4 = "";
 
-    rowHeader.kuadu0="kd";
-    rowHeader.kuadu1="";
-    rowHeader.kuadu2="";
-    rowHeader.kuadu3="";
-    rowHeader.kuadu4="";
-    rowHeader.daDi="daDi";
-    rowHeader.daDiK="daDk";
-    rowHeader.daDi2wei="2we";
-
+    rowHeader.kuadu0 = "kd";
+    rowHeader.kuadu1 = "";
+    rowHeader.kuadu2 = "";
+    rowHeader.kuadu3 = "";
+    rowHeader.kuadu4 = "";
+    rowHeader.daDi = "daDi";
+    rowHeader.daDiK = "daDk";
+    rowHeader.daDi2wei = "2we";
 
     histroyRows.add(rowHeader);
 
@@ -68,45 +67,64 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
       }
       String preKaiJiangHao = data[i - 1].kaiJiangHao;
       print("pre:$preKaiJiangHao");
+      if (preKaiJiangHao == null ||
+          preKaiJiangHao.isEmpty ||
+          preKaiJiangHao.length != 3) {
+        continue;
+      }
+      try {
+        int.parse(preKaiJiangHao);
+      } catch (Exception) {
+        continue;
+      }
 
       HistroyRow row = HistroyRow();
       row.kaiJiangHao = element.kaiJiangHao;
       row.qiHao = element.qiHao;
 
-      var r1 =  DanPreUtils.siMa01Pre(preKaiJiangHao);
+      var r1 = DanPreUtils.siMa01Pre(preKaiJiangHao);
+      var r2 = DanPreUtils.bsgePre(preKaiJiangHao);
       row.duDan1 = r1[0];
       row.ciDan1 = r1[1];
+      row.sanDan1 = r1[8];
+      row.siDan1 = r1[9];
 
 
-      var r2 =  DanPreUtils.bsgePre(preKaiJiangHao);
       row.duDan2 = r2[0];
       row.ciDan2 = r2[1];
 
-      var r3 =  DanPreUtils.duanZuPre(preKaiJiangHao);
+      var r3 = DanPreUtils.duanZuPre(preKaiJiangHao);
       row.duDan3 = r3[0];
       row.ciDan3 = r3[9];
 
-      var hw=  DanPreUtils.siMa01PreHewei(preKaiJiangHao);
+      var hw = DanPreUtils.siMa01PreHewei(preKaiJiangHao);
       row.hewei0 = hw[0];
       row.hewei1 = hw[1];
       row.hewei2 = hw[2];
       row.hewei3 = hw[8];
       row.hewei4 = hw[9];
 
-      var kuadu=  DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
-      row.kuadu0=kuadu[0];
-      row.kuadu1=kuadu[1];
-      row.kuadu2=kuadu[2];
-      row.kuadu3=kuadu[3];
-      row.kuadu4=kuadu[4];
+      var kuadu = DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
+      row.kuadu0 = kuadu[0];
+      row.kuadu1 = kuadu[1];
+      row.kuadu2 = kuadu[2];
+      row.kuadu3 = kuadu[3];
+      row.kuadu4 = kuadu[4];
 
-      row.daDi=DanPreUtils.getDaDiResult(preKaiJiangHao).contains(Utils.getSortedDanMa(element.kaiJiangHao))?"对":"错";
+      row.daDi = DanPreUtils.getDaDiResult(preKaiJiangHao)
+              .contains(Utils.getSortedDanMa(element.kaiJiangHao))
+          ? "对"
+          : "错";
 
-      row.daDiK=DanPreUtils.getDaDiResultByKuadu(preKaiJiangHao).contains(Utils.getSortedDanMa(element.kaiJiangHao))?"对":"错";
+      row.daDiK = DanPreUtils.getDaDiResultByKuadu(preKaiJiangHao)
+              .contains(Utils.getSortedDanMa(element.kaiJiangHao))
+          ? "对"
+          : "错";
 
-      row.daDi2wei=DanPreUtils.getDadi2Wei(preKaiJiangHao).contains(Utils.getSortedDanMa(element.kaiJiangHao))?"对":"错";
-
-
+      row.daDi2wei = DanPreUtils.getDadi2Wei(preKaiJiangHao)
+              .contains(Utils.getSortedDanMa(element.kaiJiangHao))
+          ? "对"
+          : "错";
 
       histroyRows.add(row);
     }
@@ -117,37 +135,38 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
 
     String preKaiJiangHao = data[data.length - 1].kaiJiangHao;
 
-    var r1 =  DanPreUtils.siMa01Pre(preKaiJiangHao);
+    var r1 = DanPreUtils.siMa01Pre(preKaiJiangHao);
+    var r2 = DanPreUtils.bsgePre(preKaiJiangHao);
     rowNext.duDan1 = r1[0];
     rowNext.ciDan1 = r1[1];
+    rowNext.sanDan1 = r1[8];
+    rowNext.siDan1 = r1[9];
 
 
-    var r2 =  DanPreUtils.bsgePre(preKaiJiangHao);
     rowNext.duDan2 = r2[0];
     rowNext.ciDan2 = r2[1];
 
-
-    var r3 =  DanPreUtils.duanZuPre(preKaiJiangHao);
+    var r3 = DanPreUtils.duanZuPre(preKaiJiangHao);
     rowNext.duDan3 = r3[0];
     rowNext.ciDan3 = r3[9];
 
-    var hw=  DanPreUtils.siMa01PreHewei(preKaiJiangHao);
+    var hw = DanPreUtils.siMa01PreHewei(preKaiJiangHao);
     rowNext.hewei0 = hw[0];
     rowNext.hewei1 = hw[1];
     rowNext.hewei2 = hw[2];
-    rowNext.hewei3 = hw[3];
-    rowNext.hewei4 = hw[4];
+    rowNext.hewei3 = hw[8];
+    rowNext.hewei4 = hw[9];
 
-    var kuadu=  DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
-    rowNext.kuadu0=kuadu[0];
-    rowNext.kuadu1=kuadu[1];
-    rowNext.kuadu2=kuadu[2];
-    rowNext.kuadu3=kuadu[3];
-    rowNext.kuadu4=kuadu[4];
+    var kuadu = DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
+    rowNext.kuadu0 = kuadu[0];
+    rowNext.kuadu1 = kuadu[1];
+    rowNext.kuadu2 = kuadu[2];
+    rowNext.kuadu3 = kuadu[3];
+    rowNext.kuadu4 = kuadu[4];
 
-    rowNext.daDi="?";
-    rowNext.daDiK="?";
-    rowNext.daDi2wei="?";
+    rowNext.daDi = "?";
+    rowNext.daDiK = "?";
+    rowNext.daDi2wei = "?";
 
     histroyRows.add(rowNext);
 

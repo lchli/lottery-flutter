@@ -182,7 +182,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
   }
 
   Future<DanMaPreState> _startPredicate() async {
-    String preKaiJiangHao = state.preKaiJiangHaoController.text;
+   final String preKaiJiangHao = state.preKaiJiangHaoController.text;
     if (preKaiJiangHao == null || preKaiJiangHao.isEmpty) {
       return DanMaPreState(
           state.preKaiJiangHaoController,

@@ -7,6 +7,7 @@ import 'package:flutterapp/lotfilter/domain/DingKuadu.dart';
 import 'package:flutterapp/lotfilter/domain/Duanzu.dart';
 import 'package:flutterapp/lotfilter/domain/FilterCondition.dart';
 import 'package:flutterapp/lotfilter/domain/FuShi.dart';
+import 'package:flutterapp/lotfilter/domain/ShaErMa.dart';
 import 'package:flutterapp/lotfilter/domain/SiMa01.dart';
 import 'package:flutterapp/lotfilter/domain/Utils.dart';
 import 'package:flutterapp/main.dart';
@@ -37,6 +38,7 @@ class DanPreUtils {
   }
 
   static String bsgePre(String preKaiJiangHao)  {
+    try {
     int sum = int.parse(preKaiJiangHao[0]) * 4 +
         int.parse(preKaiJiangHao[1]) * 9 +
         int.parse(preKaiJiangHao[2]) * 9 +
@@ -52,58 +54,68 @@ class DanPreUtils {
     }
 
     return "$sum$sum2";
+
+    }catch(Exception){
+      return "-1-1";
+    }
   }
 
   static List<String> siMa01Result(String preKaiJiangHao)  {
-    List<String> sima01 = [];
-    int ints = int.parse(preKaiJiangHao);
 
-    sima01.add(SiMa01.get4HeadNumber((ints / 3.1415926).toString())); //
-    sima01.add(SiMa01.getByDivide0618(preKaiJiangHao));
-    sima01.add(SiMa01.getByXueYinDuanzu(preKaiJiangHao));
+    try {
+      List<String> sima01 = [];
+      int ints = int.parse(preKaiJiangHao);
 
-    List<String> sima01Reverse = [];
-    sima01.forEach((element) {
-      String e = "";
-      DanMaSource.getDanMaSource().forEach((d) {
-        if (!element.contains(d)) {
-          e += d;
-        }
+      sima01.add(SiMa01.get4HeadNumber((ints / 3.1415926).toString())); //
+      sima01.add(SiMa01.getByDivide0618(preKaiJiangHao));
+      sima01.add(SiMa01.getByXueYinDuanzu(preKaiJiangHao));
+
+      List<String> sima01Reverse = [];
+      sima01.forEach((element) {
+        String e = "";
+        DanMaSource.getDanMaSource().forEach((d) {
+          if (!element.contains(d)) {
+            e += d;
+          }
+        });
+
+        sima01Reverse.add(e);
       });
 
-      sima01Reverse.add(e);
-    });
+      List<FilterCondition> conditons = [];
+      //4码=01
+      sima01.forEach((element) {
+        conditons.add(DingErMa(_getErMa(element)));
+      });
 
-    List<FilterCondition> conditons = [];
-    //4码=01
-    sima01.forEach((element) {
-      conditons.add(DingErMa(_getErMa(element)));
-    });
+      Result<List<String>> result = filterAppService.runRongCuoFilter(
+          List.of(DanMaSource.getZuXuanSource()), conditons,
+          [1, 2, 3]); //[2, 3]
 
-    Result<List<String>> result =  filterAppService.runRongCuoFilter(
-        List.of(DanMaSource.getZuXuanSource()), conditons, [1, 2, 3]); //[2, 3]
+      ///
+      List<String> data = result.data;
 
-    ///
-    List<String> data = result.data;
+      conditons.clear();
+      sima01Reverse.forEach((element) {
+        conditons.add(DingDanMa(Utils.danmaToList(element)));
+      });
+      result = filterAppService.runFilter(data, conditons);
+      data = result.data;
 
-    conditons.clear();
-    sima01Reverse.forEach((element) {
-      conditons.add(DingDanMa(Utils.danmaToList(element)));
-    });
-    result =  filterAppService.runFilter(data, conditons);
-    data = result.data;
+      ///
 
-    ///
+      conditons.clear();
+      sima01.forEach((element) {
+        conditons.add(DingDanMa(Utils.danmaToList(element)));
+      });
+      result =
+          filterAppService.runRongCuoFilter(data, conditons, [0, 1, 2]);
+      data = result.data;
 
-    conditons.clear();
-    sima01.forEach((element) {
-      conditons.add(DingDanMa(Utils.danmaToList(element)));
-    });
-    result =
-         filterAppService.runRongCuoFilter(data, conditons, [0, 1, 2]);
-    data = result.data;
-
-    return data;
+      return data;
+    }catch(Exception){
+      return [];
+    }
   }
 
   static List<String> _getErMa(String numberstr) {
@@ -380,21 +392,24 @@ class DanPreUtils {
 
 
   static List<String> getDadi2Wei(String preKaiJiangHao){
-    // String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
+     String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
     List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
+   String bs = DanPreUtils.bsgePre(preKaiJiangHao);
     String countText = _getCountText(data);
-//    String countTextKuadu = _getCountTextKuadu(data);
+    String countTextKuadu = _getCountTextKuadu(data);
 //    String countHezhi = _getCountTextHezhi(data);
     String countHewei = _getCountTextHeWei(data);
     ///大底开始。
     ///
     List<FilterCondition> conditons = [];
+
     conditons.clear();
-    conditons.add(DingDanMa([countText[0]]));
+    conditons.add(DingDanMa([countText[0],countText[1],countText[8],countText[9]]));
     conditons.add(DingHewei([countHewei[0],countHewei[1],countHewei[2]]));
     Result<List<String>> result = filterAppService.runFilter(
         DanMaSource.getZuXuanSource(), conditons);
     data = result.data;
+
 
 
     ///去掉组三豹子。

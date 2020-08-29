@@ -75,6 +75,7 @@ class _DanMaHistryPageSt extends State<DanMaHistryPage> {
         children: <Widget>[Text(item.qiHao),Padding(padding: EdgeInsets.only(left: 10)),Text(item.kaiJiangHao),
           Padding(padding: EdgeInsets.only(left: 15)),
           Text(item.duDan1,style:TextStyle(color: _getTextColor(item.duDan1,item))),Text(item.ciDan1, style: TextStyle(color: _getTextColor(item.ciDan1,item))),
+        Text(item.sanDan1, style: TextStyle(color: _getTextColor(item.sanDan1,item))), Text(item.siDan1, style: TextStyle(color: _getTextColor(item.siDan1,item))),
           Padding(padding: EdgeInsets.only(left: 5)),
           Text(item.duDan2,style:TextStyle(color:_getTextColor(item.duDan2,item))),Text(item.ciDan2, style: TextStyle(color: _getTextColor(item.ciDan2,item))),
           Padding(padding: EdgeInsets.only(left: 5)),
@@ -99,7 +100,7 @@ class _DanMaHistryPageSt extends State<DanMaHistryPage> {
   }
 
   Color _getTextColor(String number,HistroyRow item){
-    if(item.qiHao=="期号"||item.qiHao=="0000000"){
+    if(item.qiHao=="期号"||item.qiHao=="0000000"||item.kaiJiangHao==null){
       return _normalColor;
     }
     if(item.kaiJiangHao.contains(number)){

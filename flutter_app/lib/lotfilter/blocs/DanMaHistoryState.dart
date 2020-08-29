@@ -13,6 +13,8 @@ class HistroyRow{
 
   String duDan1;
   String ciDan1;
+  String sanDan1;
+  String siDan1;
 
 
 
