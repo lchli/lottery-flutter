@@ -29,7 +29,8 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     List<HistroyRow> histroyRows = [];
     HistroyRow rowHeader = HistroyRow();
     rowHeader.kaiJiangHao = "开奖";
-    rowHeader.qiHao = "期号";
+    rowHeader.qiHao = "期---号";
+    rowHeader.id = "head";
 
     rowHeader.duDan1 = "01";
     rowHeader.ciDan1 = "";
@@ -42,20 +43,20 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowHeader.duDan3 = "duz";
     rowHeader.ciDan3 = "";
 
-    rowHeader.hewei0 = "hw";
+    rowHeader.hewei0 = "h---w";
     rowHeader.hewei1 = "";
     rowHeader.hewei2 = "";
     rowHeader.hewei3 = "";
     rowHeader.hewei4 = "";
 
-    rowHeader.kuadu0 = "kd";
+    rowHeader.kuadu0 = "k---d";
     rowHeader.kuadu1 = "";
     rowHeader.kuadu2 = "";
     rowHeader.kuadu3 = "";
     rowHeader.kuadu4 = "";
-    rowHeader.daDi = "daDi";
+    rowHeader.daDi = "1+3";
     rowHeader.daDiK = "daDk";
-    rowHeader.daDi2wei = "2we";
+    rowHeader.daDi2wei = "3w";
 
     histroyRows.add(rowHeader);
 
@@ -86,7 +87,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
       var r2 = DanPreUtils.bsgePre(preKaiJiangHao);
       row.duDan1 = r1[0];
       row.ciDan1 = r1[1];
-      row.sanDan1 = r1[8];
+      row.sanDan1 = r1[2];
       row.siDan1 = r1[9];
 
 
@@ -132,6 +133,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     HistroyRow rowNext = HistroyRow();
     rowNext.kaiJiangHao = "000";
     rowNext.qiHao = "0000000";
+    rowNext.id = "tail";
 
     String preKaiJiangHao = data[data.length - 1].kaiJiangHao;
 
@@ -139,7 +141,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     var r2 = DanPreUtils.bsgePre(preKaiJiangHao);
     rowNext.duDan1 = r1[0];
     rowNext.ciDan1 = r1[1];
-    rowNext.sanDan1 = r1[8];
+    rowNext.sanDan1 = r1[2];
     rowNext.siDan1 = r1[9];
 
 

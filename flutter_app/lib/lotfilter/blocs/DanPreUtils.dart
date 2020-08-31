@@ -3,6 +3,7 @@ import 'package:flutterapp/lotfilter/client/FilterAppService.dart';
 import 'package:flutterapp/lotfilter/domain/DingDanMa.dart';
 import 'package:flutterapp/lotfilter/domain/DingErMa.dart';
 import 'package:flutterapp/lotfilter/domain/DingHewei.dart';
+import 'package:flutterapp/lotfilter/domain/DingHezhi.dart';
 import 'package:flutterapp/lotfilter/domain/DingKuadu.dart';
 import 'package:flutterapp/lotfilter/domain/Duanzu.dart';
 import 'package:flutterapp/lotfilter/domain/FilterCondition.dart';
@@ -310,8 +311,8 @@ class DanPreUtils {
     ///
     List<FilterCondition> conditons = [];
     conditons.clear();
-    conditons.add(DingDanMa([countText[0],countText[1]]));
-    conditons.add(DingHewei([countHewei[0],countHewei[1]]));
+    conditons.add(DingDanMa([countText[0]]));
+    conditons.add(DingHewei([countHewei[0],countHewei[1],countHewei[2]]));
     Result<List<String>> result = filterAppService.runFilter(
         DanMaSource.getZuXuanSource(), conditons);
     data = result.data;
@@ -392,19 +393,25 @@ class DanPreUtils {
 
 
   static List<String> getDadi2Wei(String preKaiJiangHao){
-     String firstCountText = DanPreUtils.duanZuPre(preKaiJiangHao);
     List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
    String bs = DanPreUtils.bsgePre(preKaiJiangHao);
+   String duanzupre = DanPreUtils.duanZuPre(preKaiJiangHao);
     String countText = _getCountText(data);
     String countTextKuadu = _getCountTextKuadu(data);
-//    String countHezhi = _getCountTextHezhi(data);
+    String countHezhi = _getCountTextHezhi(data);
+    var hzarr=countHezhi.split(",");
     String countHewei = _getCountTextHeWei(data);
     ///大底开始。
     ///
     List<FilterCondition> conditons = [];
 
+    print("hz:"+countHezhi);
+
     conditons.clear();
-    conditons.add(DingDanMa([countText[0],countText[1],countText[8],countText[9]]));
+   // conditons.add(DingDanMa([countText[0],countText[1],countText[2],countText[9]]));
+    //conditons.add(DingDanMa([bs[0],bs[1]]));
+   // conditons.add(DingDanMa([duanzupre[0],duanzupre[9]]));
+   // conditons.add(DingKuadu([countTextKuadu[0],countTextKuadu[1]]));
     conditons.add(DingHewei([countHewei[0],countHewei[1],countHewei[2]]));
     Result<List<String>> result = filterAppService.runFilter(
         DanMaSource.getZuXuanSource(), conditons);

@@ -8,6 +8,7 @@ class DanMaHistoryState{
 }
 
 class HistroyRow{
+  String id;
   String qiHao;
   String kaiJiangHao;
 
