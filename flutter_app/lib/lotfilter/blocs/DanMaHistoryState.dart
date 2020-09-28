@@ -16,6 +16,7 @@ class HistroyRow{
   String ciDan1;
   String sanDan1;
   String siDan1;
+  String wuDan1;
 
 
 
@@ -32,6 +33,7 @@ class HistroyRow{
   String hewei2;
   String hewei3;
   String hewei4;
+  String hewei5;
 
   String kuadu0;
   String kuadu1;

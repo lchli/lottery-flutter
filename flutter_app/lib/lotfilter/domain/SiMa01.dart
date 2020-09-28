@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutterapp/lotfilter/blocs/DanMaSource.dart';
+import 'package:flutterapp/lotfilter/blocs/DanPreUtils.dart';
 
 import 'Utils.dart';
 
@@ -134,8 +135,36 @@ class SiMa01 {
     return "$v1$v2$v3$v4";
   }
 
+  static List<String> getByGaoYuanLangDuanzu(String kaijianghao) {
+    List<String> ret=[];
 
-  static String get4HeadNumber(String drstr) {
+    List<int> norepeat=[];
+    if(!norepeat.contains(int.parse(kaijianghao[0]))){
+      norepeat.add(int.parse(kaijianghao[0]));
+    }
+    if(!norepeat.contains(int.parse(kaijianghao[1]))){
+      norepeat.add(int.parse(kaijianghao[1]));
+    }
+    if(!norepeat.contains(int.parse(kaijianghao[2]))){
+      norepeat.add(int.parse(kaijianghao[2]));
+    }
+
+   String left=DanPreUtils.getLeftNumber(kaijianghao);
+   List<int> leftlist= Utils.danmaToListInt(left);
+    leftlist.sort();
+
+    norepeat.addAll(leftlist);
+
+    ret.add("${norepeat[0]}${norepeat[1]}${norepeat[2]}");
+    ret.add("${norepeat[3]}${norepeat[4]}${norepeat[5]}");
+    ret.add("${norepeat[6]}${norepeat[7]}${norepeat[8]}${norepeat[9]}");
+
+    return ret;
+
+  }
+
+
+  static String get4HeadNumber(String drstr,int count) {
 
     print(drstr);
 
@@ -146,7 +175,7 @@ class SiMa01 {
     for (int i = 0; i < drstr.length; i++) {
       if (!left.contains(drstr[i])) {
         left.add(drstr[i]);
-        if (left.length >= 4) {
+        if (left.length >= count) {
           break;
         }
       }

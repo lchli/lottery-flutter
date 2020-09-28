@@ -36,6 +36,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowHeader.ciDan1 = "";
     rowHeader.sanDan1 = "";
     rowHeader.siDan1 = "";
+    rowHeader.wuDan1 = "";
 
     rowHeader.duDan2 = "bs";
     rowHeader.ciDan2 = "";
@@ -48,6 +49,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowHeader.hewei2 = "";
     rowHeader.hewei3 = "";
     rowHeader.hewei4 = "";
+    rowHeader.hewei5 = "";
 
     rowHeader.kuadu0 = "k---d";
     rowHeader.kuadu1 = "";
@@ -89,6 +91,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
       row.ciDan1 = r1[1];
       row.sanDan1 = r1[2];
       row.siDan1 = r1[9];
+      row.wuDan1 = r1[8];
 
 
       row.duDan2 = r2[0];
@@ -102,8 +105,10 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
       row.hewei0 = hw[0];
       row.hewei1 = hw[1];
       row.hewei2 = hw[2];
-      row.hewei3 = hw[8];
-      row.hewei4 = hw[9];
+      row.hewei3 = hw[7];
+      row.hewei4 = hw[8];
+      row.hewei5 = hw[9];
+
 
       var kuadu = DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
       row.kuadu0 = kuadu[0];
@@ -111,6 +116,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
       row.kuadu2 = kuadu[2];
       row.kuadu3 = kuadu[3];
       row.kuadu4 = kuadu[4];
+
 
       row.daDi = DanPreUtils.getDaDiResult(preKaiJiangHao)
               .contains(Utils.getSortedDanMa(element.kaiJiangHao))
@@ -122,7 +128,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
           ? "对"
           : "错";
 
-      row.daDi2wei = DanPreUtils.getDadi2Wei(preKaiJiangHao)
+      row.daDi2wei = DanPreUtils.getDadiPreLast(preKaiJiangHao)
               .contains(Utils.getSortedDanMa(element.kaiJiangHao))
           ? "对"
           : "错";
@@ -143,6 +149,8 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowNext.ciDan1 = r1[1];
     rowNext.sanDan1 = r1[2];
     rowNext.siDan1 = r1[9];
+    rowNext.wuDan1 = r1[8];
+
 
 
     rowNext.duDan2 = r2[0];
@@ -156,8 +164,9 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowNext.hewei0 = hw[0];
     rowNext.hewei1 = hw[1];
     rowNext.hewei2 = hw[2];
-    rowNext.hewei3 = hw[8];
-    rowNext.hewei4 = hw[9];
+    rowNext.hewei3 = hw[7];
+    rowNext.hewei4 = hw[8];
+    rowNext.hewei5 = hw[9];
 
     var kuadu = DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
     rowNext.kuadu0 = kuadu[0];
@@ -165,6 +174,7 @@ class DanMaHistoryBloc extends Bloc<DanMaHistroyEvent, DanMaHistoryState> {
     rowNext.kuadu2 = kuadu[2];
     rowNext.kuadu3 = kuadu[3];
     rowNext.kuadu4 = kuadu[4];
+
 
     rowNext.daDi = "?";
     rowNext.daDiK = "?";

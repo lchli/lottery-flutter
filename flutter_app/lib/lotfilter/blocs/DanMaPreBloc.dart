@@ -211,7 +211,7 @@ class DanMaPreBloc extends Bloc<DanMaPreEvent, DanMaPreState> {
     //sima01.add(SiMa01.getByDuiMa(preKaiJiangHao));//
     int ints = int.parse(preKaiJiangHao);
 
-    sima01.add(SiMa01.get4HeadNumber((ints / 3.1415926).toString())); //
+    sima01.add(SiMa01.get4HeadNumber((ints / 3.1415926).toString(),4)); //
     sima01.add(SiMa01.getByDivide0618(preKaiJiangHao));
     sima01.add(SiMa01.getByXueYinDuanzu(preKaiJiangHao));
 

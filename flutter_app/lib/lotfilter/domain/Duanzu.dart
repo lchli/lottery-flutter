@@ -14,6 +14,8 @@ class Duanzu extends FilterCondition {
 
   @override
   void doFilter(List<String> source) {
+    print(this.condition1.toString()+"-"+this.condition2.toString()+"-"+this.condition3.toString());
+
     List<String> duanzuDi = _makeZuXuan();
 
     source.removeWhere((item) => isInclude(item, duanzuDi));
