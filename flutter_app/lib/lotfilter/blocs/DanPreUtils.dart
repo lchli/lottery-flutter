@@ -447,6 +447,7 @@ class DanPreUtils {
     String forhead = SiMa01.get4HeadNumber((ints / 3.1415926).toString(),3);
     String left6=getLeftNumber(forhead);
     List<String> aGaoYuanLangDuanzu=SiMa01.getByGaoYuanLangDuanzu(preKaiJiangHao);
+    List<String>  sima01Numberlist=sima01Number(preKaiJiangHao);
 
     ///大底开始。
     ///
@@ -458,15 +459,24 @@ class DanPreUtils {
     print("aGaoYuanLangDuanzu:" + aGaoYuanLangDuanzu.toString());
 
     conditons.clear();
-//    conditons.add(
-//        Duanzu(Utils.danmaToList(aGaoYuanLangDuanzu[0]),
-//            Utils.danmaToList(aGaoYuanLangDuanzu[1]),
-//            Utils.danmaToList(aGaoYuanLangDuanzu[2])));
+
+    conditons.add(
+        Duanzu(Utils.danmaToList(aGaoYuanLangDuanzu[0]),
+            Utils.danmaToList(aGaoYuanLangDuanzu[1]),
+            Utils.danmaToList(aGaoYuanLangDuanzu[2])));
 
     conditons.add(
         Duanzu(["1","2","5"],
             ["0","7","9"],
             ["3","4","6","8"]));
+
+    conditons.add(
+        Duanzu([countText[0],countText[1],countText[2],countText[3]],
+            [countText[4],countText[5],countText[6]],
+            [countText[7],countText[8],countText[9]]));
+
+
+
    // conditons.add(DingDanMa([countText[0], countText[1]]));
 //    conditons.add(DingHewei([
 //      countHewei[0],
@@ -477,8 +487,10 @@ class DanPreUtils {
 //      countHewei[9]
 //    ]));
     // conditons.add(DingKuadu([countTextKuadu[0],countTextKuadu[1],countTextKuadu[2]]));
+
+
     Result<List<String>> result =
-        filterAppService.runFilter(DanMaSource.getZuXuanSource(), conditons);
+        filterAppService.runRongCuoFilter(DanMaSource.getZuXuanSource(), conditons,[0,1]);
     data = result.data;
     List<String> res1 = data;
 
