@@ -8,6 +8,7 @@ import 'package:flutterapp/lotfilter/domain/DingKuadu.dart';
 import 'package:flutterapp/lotfilter/domain/Duanzu.dart';
 import 'package:flutterapp/lotfilter/domain/FilterCondition.dart';
 import 'package:flutterapp/lotfilter/domain/FuShi.dart';
+import 'package:flutterapp/lotfilter/domain/ShaDanMa.dart';
 import 'package:flutterapp/lotfilter/domain/ShaErMa.dart';
 import 'package:flutterapp/lotfilter/domain/SiMa01.dart';
 import 'package:flutterapp/lotfilter/domain/Utils.dart';
@@ -396,7 +397,7 @@ class DanPreUtils {
   }
 
   static List<String> getDadi2Wei(String preKaiJiangHao) {
-     return getDadiPreLast(preKaiJiangHao);
+     //return getDadiPreLast(preKaiJiangHao);
 
     List<String> data = DanPreUtils.siMa01Result(preKaiJiangHao);
     String bs = DanPreUtils.bsgePre(preKaiJiangHao);
@@ -443,6 +444,7 @@ class DanPreUtils {
     var hzarr = countHezhi.split(",");
     String countHewei = _getCountTextHeWei(data);
 
+
     int ints = int.parse(preKaiJiangHao);
     String forhead = SiMa01.get4HeadNumber((ints / 3.1415926).toString(),3);
     String left6=getLeftNumber(forhead);
@@ -459,23 +461,24 @@ class DanPreUtils {
     print("aGaoYuanLangDuanzu:" + aGaoYuanLangDuanzu.toString());
 
     conditons.clear();
-
+//
+//    conditons.add(
+//        Duanzu(Utils.danmaToList(aGaoYuanLangDuanzu[0]),
+//            Utils.danmaToList(aGaoYuanLangDuanzu[1]),
+//            Utils.danmaToList(aGaoYuanLangDuanzu[2])));
+//
+//    conditons.add(
+//        Duanzu(["1","2","5"],
+//            ["0","7","9"],
+//            ["3","4","6","8"]));
+//
+    conditons.add(DingHewei(["1","4","7"]));
     conditons.add(
-        Duanzu(Utils.danmaToList(aGaoYuanLangDuanzu[0]),
-            Utils.danmaToList(aGaoYuanLangDuanzu[1]),
-            Utils.danmaToList(aGaoYuanLangDuanzu[2])));
+        Duanzu([countText[0],countText[1]],
+            [countText[2],countText[3],countText[4],countText[5]],
+            [countText[6],countText[7],countText[8],countText[9]]));
 
-    conditons.add(
-        Duanzu(["1","2","5"],
-            ["0","7","9"],
-            ["3","4","6","8"]));
-
-    conditons.add(
-        Duanzu([countText[0],countText[1],countText[2],countText[3]],
-            [countText[4],countText[5],countText[6]],
-            [countText[7],countText[8],countText[9]]));
-
-
+    //conditons.add(ShaDanMa([countText[0],countText[1],countText[2],countText[3],countText[8],countText[9]]));
 
    // conditons.add(DingDanMa([countText[0], countText[1]]));
 //    conditons.add(DingHewei([
@@ -490,7 +493,7 @@ class DanPreUtils {
 
 
     Result<List<String>> result =
-        filterAppService.runRongCuoFilter(DanMaSource.getZuXuanSource(), conditons,[0,1]);
+        filterAppService.runFilter(DanMaSource.getZuXuanSource(), conditons);
     data = result.data;
     List<String> res1 = data;
 

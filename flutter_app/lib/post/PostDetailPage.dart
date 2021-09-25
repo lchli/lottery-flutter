@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/post/MyPostsPage.dart';
 import 'package:flutterapp/client/ApiUrl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:quill_delta/quill_delta.dart';
-import 'package:zefyr/zefyr.dart';
+
 import '../MainPage.dart';
 import '../Pref.dart';
 import 'WritePostPage.dart';
