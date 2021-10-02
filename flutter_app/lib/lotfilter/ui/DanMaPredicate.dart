@@ -28,7 +28,7 @@ class _State extends State<DanMaPredicate> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DanMaPreBloc, DanMaPreState>(
-      cubit: _bloc,
+      //cubit: _bloc,
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(

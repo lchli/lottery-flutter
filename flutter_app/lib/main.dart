@@ -5,6 +5,7 @@
 // State class.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterapp/lotfilter/app/FilterAppServiceImpl.dart';
 import 'package:flutterapp/lotfilter/client/FilterAppService.dart';
 import 'package:flutterapp/lotfilter/ui/FilterPage.dart';
@@ -19,6 +20,7 @@ import 'client/ResultDto.dart';
 import 'client/UserAppService.dart';
 import 'lotfilter/domain/DanMaRepo.dart';
 import 'lotfilter/infra/DanMaRepoImpl.dart';
+import 'lotfilter/ui/LotteryRepo.dart';
 import 'user/login.dart';
 
 void main() => runApp(MyApp());
@@ -26,7 +28,13 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home:FilterPage());
+    return RepositoryProvider.value(
+      value: LotteryRepo(),
+        child:  MaterialApp(home:MainPage()),
+
+    );
+
+
   }
 
   static UserAppService provideUserAppService() {
@@ -34,7 +42,7 @@ class MyApp extends StatelessWidget {
   }
 
   static FilterAppService provideFilterAppService() {
-    return FilterAppServiceImpl();
+  return FilterAppServiceImpl();
   }
   static DanMaRepo provideDanMaRepo() {
     return DanMaRepoImpl();

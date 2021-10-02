@@ -63,7 +63,7 @@ class _ChooseDanMaPageSt extends State<ChooseDanMaPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(onWillPop: _onBackPressed,child:BlocBuilder<ChooseHaoMaBloc, ChooseHaoMaState>(
-        cubit: _bloc,
+        //cubit: _bloc,
         builder: (context, state) {
           return Scaffold(
               body: _body(context, state),

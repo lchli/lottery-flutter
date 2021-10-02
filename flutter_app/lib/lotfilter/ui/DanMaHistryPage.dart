@@ -43,7 +43,7 @@ class _DanMaHistryPageSt extends State<DanMaHistryPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DanMaHistoryBloc, DanMaHistoryState>(
-        cubit: _bloc,
+        //cubit: _bloc,
         builder: (context, state) {
           return Scaffold(
               body: _body(context, state),

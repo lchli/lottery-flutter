@@ -30,7 +30,7 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FilterBloc, FilterState>(
-        cubit: _bloc,
+        //cubit: _bloc,
         builder: (context, state) {
           return Scaffold(
               appBar: AppBar(
