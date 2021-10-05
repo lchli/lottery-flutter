@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: LotteryRepo(),
+      value: DanMaRepoImpl(),
         child:  MaterialApp(home:MainPage()),
 
     );

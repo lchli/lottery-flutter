@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterapp/lotfilter/infra/DanMaRepoImpl.dart';
 
 import 'DanMaPre1Cubit.dart';
 import 'DanMaPre1State.dart';
+import 'domain/DanMaRepo.dart';
 import 'models.dart';
 
 class DanMaPre1 extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
    return BlocProvider<DanMaPre1Cubit>(
-     create: (_) => DanMaPre1Cubit(DanMaPre1State([]))..loadResult(),
+     create: (_) => DanMaPre1Cubit(DanMaRepoImpl())..loadResult(),
      child:  DataTableDemo(),
    );
   }

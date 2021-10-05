@@ -27,7 +27,7 @@ class MainPageState extends State<MainPage> {
         child: Scaffold(
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Color(0xFF6200EE),
+            backgroundColor: Colors.blueAccent,
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white.withOpacity(.60),
             selectedFontSize: 14,
@@ -39,12 +39,12 @@ class MainPageState extends State<MainPage> {
             },
             items: [
               BottomNavigationBarItem(
-                title: Text('tool'),
-              icon: Icon(Icons.favorite),
+                title: Text('功能'),
+              icon: Icon(Icons.featured_play_list),
               ),
               BottomNavigationBarItem(
-                title: Text('setting'),
-                icon: Icon(Icons.music_note),
+                title: Text('设置'),
+                icon: Icon(Icons.settings),
               ),
 
             ],
@@ -60,13 +60,7 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-  void _gotoMain() {
-    Navigator.of(context).push(new MaterialPageRoute(
-      builder: (context) {
-        return  LotToolsPage();
-      },
-    ));
-  }
+
 
 
 }

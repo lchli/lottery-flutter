@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import '../DanMaPre1.dart';
 
 class LotToolsPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Padding(
-        padding: EdgeInsets.only(top: 50),
+        padding: EdgeInsets.only(top: statusBarHeight),
         child: Column(children: [
           Row(
             children: [

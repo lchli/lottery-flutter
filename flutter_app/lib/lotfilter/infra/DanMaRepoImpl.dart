@@ -13,6 +13,7 @@ class DanMaRepoImpl extends DanMaRepo {
 
     SharedPreferences sp = await Pref.prefs;
     String lotteryHis = sp.getString("lottery_his");
+    print("lotteryHis:"+lotteryHis);
     if (lotteryHis == null || lotteryHis.isEmpty) {
       return res;
     }
