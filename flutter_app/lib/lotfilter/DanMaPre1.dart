@@ -1,20 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterapp/lotfilter/DanMaPre1Controller.dart';
 import 'package:flutterapp/lotfilter/infra/DanMaRepoImpl.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/state_manager.dart';
 
-import 'DanMaPre1Cubit.dart';
-import 'DanMaPre1State.dart';
-import 'domain/DanMaRepo.dart';
 import 'models.dart';
 
 class DanMaPre1 extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-   return BlocProvider<DanMaPre1Cubit>(
-     create: (_) => DanMaPre1Cubit(DanMaRepoImpl())..loadResult(),
-     child:  DataTableDemo(),
-   );
+
+
+   return  DataTableDemo();
   }
 
 
@@ -22,10 +22,10 @@ class DanMaPre1 extends StatelessWidget{
 
 
 
-
-
 class DataTableDemo extends StatelessWidget {
   Widget build(BuildContext context) {
+    final DanMaPre1Controller c = Get.put(DanMaPre1Controller(DanMaRepoImpl()));
+
     return Scaffold(
       appBar: AppBar(
         title: Text('胆码预测一'),
@@ -33,9 +33,7 @@ class DataTableDemo extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(0),
         children: [
-          BlocBuilder<DanMaPre1Cubit, DanMaPre1State>(
-            builder: (context, state) {
-              return   PaginatedDataTable(
+        Obx(()=>PaginatedDataTable(
                // header: Text('Header Text'),
                 showCheckboxColumn: false,
                rowsPerPage: 20,
@@ -45,10 +43,8 @@ class DataTableDemo extends StatelessWidget {
                   DataColumn(label: Text('预测号')),
                   DataColumn(label: Text('结果')),
                 ],
-                source: _DataSource(context,state.list),
-              );
-            },
-          ),
+                source: _DataSource(c.list()),
+              ))
 
         ],
       ),
@@ -58,20 +54,21 @@ class DataTableDemo extends StatelessWidget {
 
 
 class _DataSource extends DataTableSource {
-  _DataSource(this.context,this._rows) {
+  _DataSource(this.rows) ;
 
-  }
 
-  final BuildContext context;
-  List<KjRow> _rows;
+  List<KjRow> rows;
 
   int _selectedCount = 0;
 
   @override
   DataRow getRow(int index) {
+    if(rows==null){
+      return null;
+    }
     assert(index >= 0);
-    if (index >= _rows.length) return null;
-    final row = _rows[index];
+    if (index >= rows.length) return null;
+    final row = rows[index];
     return DataRow.byIndex(
       index: index,
       //selected: row.selected,
@@ -93,7 +90,7 @@ class _DataSource extends DataTableSource {
   }
 
   @override
-  int get rowCount => _rows.length;
+  int get rowCount =>rows!=null? rows.length:0;
 
   @override
   bool get isRowCountApproximate => false;

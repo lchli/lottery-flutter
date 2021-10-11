@@ -13,6 +13,7 @@ import 'package:flutterapp/user/UserModelVM.dart';
 import 'package:flutterapp/user/app/UserAppServiceImpl.dart';
 import 'package:flutterapp/user/domain/User.dart';
 import 'package:flutterapp/user/infas/UserRepoImpl.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 
 import 'MainPage.dart';
@@ -28,12 +29,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: DanMaRepoImpl(),
-        child:  MaterialApp(home:MainPage()),
-
-    );
-
+    return GetMaterialApp(home:MainPage());
 
   }
 
