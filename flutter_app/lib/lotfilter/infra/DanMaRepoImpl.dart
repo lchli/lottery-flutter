@@ -2,13 +2,19 @@ import 'dart:core';
 
 import 'package:flutterapp/client/ResultDto.dart';
 import 'package:flutterapp/lotfilter/domain/DanMaRepo.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Pref.dart';
 
-class DanMaRepoImpl extends DanMaRepo {
+class DanMaRepoImpl extends   GetConnect with DanMaRepo{
+
+
+  Future<Response> getUser() => get('https://github.com/lchli/lottery-flutter/raw/master/flutter_app/raw/lot.txt');
+
   @override
   Future<Result<List<KJDto>>> queryKaiJiangHao() async {
+    await getUser();
     Result<List<KJDto>> res = Result<List<KJDto>>();
 
     SharedPreferences sp = await Pref.prefs;
