@@ -1,31 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/lotfilter/DanMaPre1Controller.dart';
-import 'package:flutterapp/lotfilter/infra/DanMaRepoImpl.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/state_manager.dart';
 
+import 'PreController.dart';
 import 'models.dart';
 
-class DanMaPre1 extends StatelessWidget{
+class DanMaPre1 extends GetView<PreController>{
+
+  @override
+  String get tag => Get.routing.current;
+
   @override
   Widget build(BuildContext context) {
-
-
-   return  DataTableDemo();
-  }
-
-
-}
-
-
-
-class DataTableDemo extends StatelessWidget {
-  Widget build(BuildContext context) {
-    final DanMaPre1Controller c = Get.put(DanMaPre1Controller(DanMaRepoImpl()));
-
     return Scaffold(
       appBar: AppBar(
         title: Text('胆码预测一'),
@@ -33,23 +22,24 @@ class DataTableDemo extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(0),
         children: [
-        Obx(()=>PaginatedDataTable(
-               // header: Text('Header Text'),
-                showCheckboxColumn: false,
-               rowsPerPage: 20,
-                columns: [
-                  DataColumn(label: Text('期号')),
-                  DataColumn(label: Text('开奖号')),
-                  DataColumn(label: Text('预测号')),
-                  DataColumn(label: Text('结果')),
-                ],
-                source: _DataSource(c.list()),
-              ))
+          Obx(()=>PaginatedDataTable(
+            // header: Text('Header Text'),
+            showCheckboxColumn: false,
+            rowsPerPage: 20,
+            columns: [
+              DataColumn(label: Text('期号')),
+              DataColumn(label: Text('开奖号')),
+              DataColumn(label: Text('预测号')),
+              DataColumn(label: Text('结果')),
+            ],
+            source: _DataSource(controller.list()),
+          ))
 
         ],
       ),
     );
   }
+
 }
 
 

@@ -1,6 +1,7 @@
 import 'package:flutterapp/client/ResultDto.dart';
+import 'package:get/get.dart';
 
-abstract class  DanMaRepo{
+abstract class  DanMaRepo extends GetxService{
 
 
 

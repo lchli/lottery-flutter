@@ -38,6 +38,7 @@ dependencies:
   bloc: ^7.2.1
   flutter_bloc: ^7.3.0
   get: ^4.3.8
+  responsive_framework: ^0.1.4
 
 dev_dependencies:
   flutter_test:

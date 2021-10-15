@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'PreController.dart';
 import 'blocs/DanPreUtils.dart';
 import 'domain/DanMaRepo.dart';
+import 'domain/Utils.dart';
 import 'models.dart';
 
-class DanMaPre1Controller extends PreController{
+class KuaduPreController extends PreController{
 
   DanMaRepo _danMaRepo=Get.find<DanMaRepo>();
 
@@ -40,10 +41,10 @@ class DanMaPre1Controller extends PreController{
 
     for (int i = 0; i < data.length; i++) {
       if (preKaiJiangHao != null) {
-        var r1 = DanPreUtils.siMa01Pre(preKaiJiangHao);
-        var res = data[i].kaiJiangHao.contains(r1[0]) ||
-            data[i].kaiJiangHao.contains(r1[1]);
-        list.add(KjRow(data[i].qiHao, data[i].kaiJiangHao, "${r1[0]}${r1[1]}",
+        var r1 = DanPreUtils.siMa01PreKuadu(preKaiJiangHao);
+        var pre="${r1[0]}${r1[1]}${r1[2]}${r1[3]}${r1[4]}";
+        var res =pre.contains(Utils.getItemKuadu(data[i].kaiJiangHao));
+        list.add(KjRow(data[i].qiHao, data[i].kaiJiangHao, pre,
             res ? "对" : "错"));
       }
 

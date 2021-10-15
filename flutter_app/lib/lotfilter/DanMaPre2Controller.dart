@@ -6,7 +6,7 @@ import 'blocs/DanPreUtils.dart';
 import 'domain/DanMaRepo.dart';
 import 'models.dart';
 
-class DanMaPre1Controller extends PreController{
+class DanMaPre2Controller extends PreController{
 
   DanMaRepo _danMaRepo=Get.find<DanMaRepo>();
 
@@ -40,7 +40,7 @@ class DanMaPre1Controller extends PreController{
 
     for (int i = 0; i < data.length; i++) {
       if (preKaiJiangHao != null) {
-        var r1 = DanPreUtils.siMa01Pre(preKaiJiangHao);
+        var r1 = DanPreUtils.bsgePre(preKaiJiangHao);
         var res = data[i].kaiJiangHao.contains(r1[0]) ||
             data[i].kaiJiangHao.contains(r1[1]);
         list.add(KjRow(data[i].qiHao, data[i].kaiJiangHao, "${r1[0]}${r1[1]}",
