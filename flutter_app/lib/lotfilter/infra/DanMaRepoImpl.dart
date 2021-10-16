@@ -14,7 +14,8 @@ class DanMaRepoImpl extends   GetConnect with DanMaRepo{
 
   @override
   Future<Result<List<KJDto>>> queryKaiJiangHao() async {
-    await getUser();
+    var r=await getUser();
+    print(r.body);
     Result<List<KJDto>> res = Result<List<KJDto>>();
 
     SharedPreferences sp = await Pref.prefs;

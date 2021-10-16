@@ -58,12 +58,13 @@ class MyApp extends StatelessWidget {
           ],
           background: Container(color: Color(0xFFF5F5F5))),
       initialRoute: "/",
+      initialBinding: InitBinding(),
       getPages: [
         GetPage(
             name: Routes.HOME,
             page: () => MainPage(),
             binding: BindingsBuilder(() {
-              Get.lazyPut<DanMaRepo>(() => DanMaRepoImpl());
+             // Get.lazyPut<DanMaRepo>(() => DanMaRepoImpl());
               Get.lazyPut<MainPageController>(() => MainPageController());
             })),
         GetPage(
