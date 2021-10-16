@@ -21,6 +21,7 @@ class _Child extends StatelessWidget {
               child: ListView(
                 children: [
                   ListTile(
+                    enableFeedback: true,
                     title: Text('版本号1.0'),
                     leading: Icon(Icons.update),
                   ),

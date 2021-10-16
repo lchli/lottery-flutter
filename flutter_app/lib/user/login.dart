@@ -3,7 +3,7 @@ import 'package:flutterapp/client/ResultDto.dart';
 import 'package:flutterapp/lotfilter/ui/FilterPage.dart';
 import 'package:flutterapp/user/UserModelVM.dart';
 import 'package:flutterapp/user/domain/User.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:provider/provider.dart';
 
 import '../MainPage.dart';
@@ -78,15 +78,15 @@ class _LoginState extends State<Login> {
     var userModel = Provider.of<UserModelVM>(context,listen: false);
     Result<User> responseBodyResult=await userModel.login(account, pwd);
     if(responseBodyResult.code!="0"){
-      Fluttertoast.showToast(
-          msg: responseBodyResult.msg,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
+      // Fluttertoast.showToast(
+      //     msg: responseBodyResult.msg,
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.CENTER,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
       return;
     }
 
