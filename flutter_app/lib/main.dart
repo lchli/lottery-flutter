@@ -45,7 +45,10 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+   // Get.lazyPut<DanMaRepo>(() => DanMaRepoImpl());
+
     return GetMaterialApp(
+
       builder: (context, widget) => ResponsiveWrapper.builder(
           ClampingScrollWrapper.builder(context, widget),
           maxWidth: 1200,
@@ -58,13 +61,12 @@ class MyApp extends StatelessWidget {
           ],
           background: Container(color: Color(0xFFF5F5F5))),
       initialRoute: "/",
-      initialBinding: InitBinding(),
       getPages: [
         GetPage(
             name: Routes.HOME,
             page: () => MainPage(),
             binding: BindingsBuilder(() {
-             // Get.lazyPut<DanMaRepo>(() => DanMaRepoImpl());
+              Get.put<DanMaRepo>(DanMaRepoImpl());
               Get.lazyPut<MainPageController>(() => MainPageController());
             })),
         GetPage(

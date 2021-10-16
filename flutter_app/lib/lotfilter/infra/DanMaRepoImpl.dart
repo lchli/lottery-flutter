@@ -7,19 +7,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Pref.dart';
 
-class DanMaRepoImpl extends   GetConnect with DanMaRepo{
+class DanMaRepoImpl extends   GetConnect implements DanMaRepo{
 
 
-  Future<Response> getUser() => get('https://github.com/lchli/lottery-flutter/raw/master/flutter_app/raw/lot.txt');
+  Future<Response> _getHisLot() => get('https://github.com/lchli/lottery-flutter/raw/master/flutter_app/raw/lot.txt');
 
   @override
   Future<Result<List<KJDto>>> queryKaiJiangHao() async {
-    var r=await getUser();
-    print(r.body);
     Result<List<KJDto>> res = Result<List<KJDto>>();
 
-    SharedPreferences sp = await Pref.prefs;
-    String lotteryHis = sp.getString("lottery_his");
+    var r=await _getHisLot();
+    if (r.status.hasError) {
+      print(Future.error(r.statusText));
+      return res;
+    } else {
+      print(r.body);
+    }
+   // SharedPreferences sp = await Pref.prefs;
+    String lotteryHis = r.bodyString;
     print("lotteryHis:"+lotteryHis);
     if (lotteryHis == null || lotteryHis.isEmpty) {
       return res;

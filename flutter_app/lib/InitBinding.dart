@@ -8,6 +8,6 @@ import 'lotfilter/domain/DanMaRepo.dart';
 class InitBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DanMaRepo>(() => DanMaRepoImpl());
+    Get.put<DanMaRepo>(DanMaRepoImpl());
   }
 }

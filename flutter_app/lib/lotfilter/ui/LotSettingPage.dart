@@ -21,14 +21,6 @@ class _Child extends StatelessWidget {
               child: ListView(
                 children: [
                   ListTile(
-                    title: Text('导入历史开奖号码'),
-                    leading: Icon(Icons.import_export),
-                    onTap: () {
-                      _showFillHaoMaDialog(
-                          context, context.read<SettingCubit>());
-                    },
-                  ),
-                  ListTile(
                     title: Text('版本号1.0'),
                     leading: Icon(Icons.update),
                   ),
