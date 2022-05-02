@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
+import 'apk_manage.dart';
 import 'lotfilter/MainPageController.dart';
 import 'lotfilter/ui/LotSettingPage.dart';
 import 'lotfilter/ui/LotToolsPage.dart';
 
 class MainPage extends GetView<MainPageController> {
-  final _pages = <Widget>[LotToolsPage(), LotSettingPage()];
+  final _pages = <Widget>[LotToolsPage(), ApkManage()];
 
   @override
   Widget build(BuildContext context) {

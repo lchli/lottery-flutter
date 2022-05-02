@@ -33,6 +33,7 @@ dependencies:
   shared_preferences: ^0.5.7+3
   json_annotation: ^2.0.0
 
+
   #zefyr: ^+
   provider: ^6.0.1
   bloc: ^7.2.1

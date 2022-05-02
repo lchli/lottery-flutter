@@ -154,7 +154,67 @@ class LotToolsPage extends StatelessWidget {
                       })),
 
             ],
-          )
+          ),
+          Row(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Padding(padding: EdgeInsets.only(top: 20)),
+                            Text("广告开关"),
+                            Padding(padding: EdgeInsets.only(top: 10)),
+                            Icon(Icons.arrow_drop_down_circle),
+                            Padding(padding: EdgeInsets.only(top: 20))
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        Get.toNamed(Routes.danma_pre3);
+                      })),
+              Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Padding(padding: EdgeInsets.only(top: 20)),
+                            Text("apk管理"),
+                            Padding(padding: EdgeInsets.only(top: 10)),
+                            Icon(Icons.arrow_drop_down_circle),
+                            Padding(padding: EdgeInsets.only(top: 20))
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        Get.toNamed(Routes.hewei_pre);
+                      })),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Padding(padding: EdgeInsets.only(top: 20)),
+                            Text("协议管理"),
+                            Padding(padding: EdgeInsets.only(top: 10)),
+                            Icon(Icons.arrow_drop_down_circle),
+                            Padding(padding: EdgeInsets.only(top: 20))
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        Get.toNamed(Routes.danma_pre3);
+                      })),
+
+            ],
+          ),
         ]));
   }
 

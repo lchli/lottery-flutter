@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 
+import 'ApkController.dart';
 import 'InitBinding.dart';
 import 'MainPage.dart';
 import 'client/ResultDto.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
             page: () => MainPage(),
             binding: BindingsBuilder(() {
               Get.lazyPut<MainPageController>(() => MainPageController());
+              Get.lazyPut<ApkController>(() => ApkController());
             })),
         GetPage(
             name: Routes.danma_pre,
