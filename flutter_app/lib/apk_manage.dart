@@ -8,23 +8,35 @@ import 'package:get/state_manager.dart';
 import 'ApkController.dart';
 
 
-class ApkManage extends   GetView<ApkController>{
+class ApkManage extends GetView<ApkController> {
 
+  final TextEditingController _controllerPwd = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
-    return Obx(()=>Center(child: Text(controller.list()),));
-  }
+    return Obx(() =>
+        Center(child: Column(
+          children: [Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top)),TextButton(child: Text(controller.list()), onPressed: () {
+            controller.unzip(_controllerPwd.text);
+          },),
+            new TextField(
+              controller: _controllerPwd,
+              decoration: new InputDecoration(
+                hintText: '输入密码',
+              ),
+            ),
+            Text(controller.unzipPath()),
+          ],)));
+    }
 
 }
 
 
-class _ApkManageState extends State{
-  final apkName=TextEditingController();
-  final apkVersion=TextEditingController();
-  final userName=TextEditingController();
-  final userPwd=TextEditingController();
+class _ApkManageState extends State {
+  final apkName = TextEditingController();
+  final apkVersion = TextEditingController();
+  final userName = TextEditingController();
+  final userPwd = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +56,7 @@ class _ApkManageState extends State{
             enableFeedback: true,
             title: Text('apk上传'),
             leading: Icon(Icons.update),
-            onTap: (){
+            onTap: () {
 
             },
           ),

@@ -28,11 +28,11 @@ class MainPage extends GetView<MainPageController> {
             },
             items: [
               BottomNavigationBarItem(
-                title: Text('功能'),
+                label:'功能',
                 icon: Icon(Icons.featured_play_list),
               ),
               BottomNavigationBarItem(
-                title: Text('设置'),
+                label: '文件解压',
                 icon: Icon(Icons.settings),
               ),
             ],
