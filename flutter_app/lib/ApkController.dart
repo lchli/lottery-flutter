@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:archive/archive.dart';
-import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:unrar_file/unrar_file.dart';
 
 
 
@@ -25,21 +25,23 @@ class ApkController extends GetxController{
   unzip(String pwd) async {
 
     FilePickerResult result = await FilePicker.platform.pickFiles();
+    String zipFilePath="";
+    String destinationDir="";
 
     if (result != null) {
       try {
         //File file = File(result.files.single.path);
 
         final zipFile = File(result.files.single.path);
-
-        String destinationDir = zipFile.parent.path;
+        zipFilePath=zipFile.path;
+         destinationDir = zipFile.parent.path;
         if (Platform.isAndroid) {
           var dir = await getExternalStorageDirectory();
           destinationDir = dir.path;
           //print(path);  // [/storage/emulated/0, /storage/B3AE-4D28]
         }
 
-        final bytes = File(result.files.single.path).readAsBytesSync();
+        final bytes = File(zipFile.path).readAsBytesSync();
         Archive archive;
         // Decode the Zip file
         if (pwd.isNotEmpty) {
@@ -65,7 +67,7 @@ class ApkController extends GetxController{
         print("success:${destinationDir}");
         unzipPath.value = "解压成功,文件路径：" + destinationDir;
       }catch(e){
-        unzipPath.value="解压失败："+e.toString();
+        unrar(zipFilePath,destinationDir,password: pwd);
       }
 
     } else {
@@ -73,7 +75,23 @@ class ApkController extends GetxController{
     }
   }
 
-  loadResult() async {
+  Future<void> unrar(String input_file_path,String destination_path, {password=""}) async {
+    if(input_file_path.isEmpty||destination_path.isEmpty){
+      return;
+    }
+    // Extraction may fail, so we use a try/catch PlatformException.
+    try {
+      await UnrarFile.extract_rar(input_file_path,  destination_path, password: password);
+      unzipPath.value = "解压成功,文件路径：" + destination_path;
+    } catch(e) {
+      print("extraction failed $e");
+      unzipPath.value="解压失败："+e.toString();
+    }
+  }
+
+
+
+    loadResult() async {
 
 
     //var ret = await mock();
